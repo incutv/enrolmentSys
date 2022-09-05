@@ -6,8 +6,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,7 +26,7 @@ public class NoticeController {
 		this.noticeMapper = noticeMapper;
 	}
 
-	@RequestMapping("list")
+	@GetMapping("list")
 	public String list(Model model) {
 		List<Notice> notices = noticeMapper.findAll();
 		model.addAttribute("notices", notices);
@@ -57,13 +59,13 @@ public class NoticeController {
 		return "notice/edit";
 	}
 
-	@PostMapping("edit")
+	@PutMapping("edit")
 	public String edit(Model model, Notice notice) {
 		noticeMapper.update(notice);
 		return "redirect:list";
 	}
 
-	@RequestMapping("delete")
+	@DeleteMapping("delete")
 	public String delete(Model model, @RequestParam("seq") int seq) {
 		noticeMapper.delete(seq);
 		return "redirect:list";
