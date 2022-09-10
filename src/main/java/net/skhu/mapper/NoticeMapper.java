@@ -2,44 +2,34 @@ package net.skhu.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
+import net.skhu.dto.Criteria;
 import net.skhu.dto.Notice;
 
 @Mapper
-//@CacheNamespace(flushInterval=60000)	//1분
+@CacheNamespace(flushInterval=60000)	//1분
 public interface NoticeMapper {
+	// 공지사항 조회
+	List<Notice> findAll(Criteria criteria);
 
-	@Select("SELECT * FROM notice " +
-			"WHERE start_date <= date_format(sysdate(), '%Y%m%d') " +
-			"  AND end_date > date_format(sysdate(), '%Y%m%d') ")
-	List<Notice> findAll();
+	// 공지사항 총 게시글 수
+	int count();
 
-	@Select("SELECT * FROM notice WHERE seq = #{seq} ")
+	// 공지사항 상세보기
 	Notice findOne(int seq);
 
-
-	@Insert("INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer )   " +
-			"VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, #{views}, #{writer} )")
-	@Options(useGeneratedKeys=true, keyProperty="seq")
+	// 공지사항 추가
 	void insert(Notice notice);
 
-	@Update("UPDATE notice " +
-			"SET subject = #{subject}, " +
-			"	 contents = #{contents}, 	" +
-			"	 date = #{date},  " +
-			"	 start_date = #{start_date}, 	" +
-			"	 end_date = #{end_date}, 	" +
-			"	 writer = #{writer} 	" +
-			"WHERE seq = #{seq} ")
+	// 조회수 증가
+	void viewCnt(int seq);
+
+	// 공지사항 수정
 	void update(Notice notice);
 
-	@Delete("DELETE FROM notice WHERE seq = #{seq} ")
+	// 공지사항 삭제
 	void delete(int seq);
 
 

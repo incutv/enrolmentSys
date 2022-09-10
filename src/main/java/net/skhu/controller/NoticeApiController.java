@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import net.skhu.dto.Criteria;
 import net.skhu.dto.Notice;
 import net.skhu.mapper.NoticeMapper;
 
@@ -35,8 +36,8 @@ public class NoticeApiController {
 
 	@ApiOperation(value="리스트", notes="공지사항 리스트출력")
 	@GetMapping("/list")
-	public List<Notice> list() {
-		List<Notice> notices = noticeMapper.findAll();
+	public List<Notice> list(Criteria cri) {
+		List<Notice> notices = noticeMapper.findAll(cri);
 		return notices;
 	}
 
@@ -45,11 +46,13 @@ public class NoticeApiController {
 	@GetMapping("/write")
 	public Notice write() {
 		Notice notice = new Notice();
-		Date date = new Date();
-		notice.setDate(date);
-		notice.setStart_date(date);
-		notice.setEnd_date(date);
-		notice.setWriter("관리자"); //로그인화면 구현 후 수정
+
+		notice.setDate(new Date());
+		notice.setStart_date(new Date());
+		notice.setEnd_date(new Date());
+		notice.setViews(0);
+		noticeMapper.insert(notice);
+
 		return notice;
 	}
 

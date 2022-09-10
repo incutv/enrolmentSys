@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import net.skhu.dto.Criteria;
 import net.skhu.dto.Notice;
 import net.skhu.mapper.NoticeMapper;
 
@@ -19,7 +20,8 @@ class NoticeApiControllerTest {
 
 	@Test
 	void testList() {
-		List<Notice> notices = noticeMapper.findAll();
+		Criteria cri = new Criteria();
+		List<Notice> notices = noticeMapper.findAll(cri);
 
 		fail("Not yet implemented");
 	}

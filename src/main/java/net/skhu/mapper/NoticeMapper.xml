@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.NoticeMapper">
+
+<select id = "findAll" resultMap="NoticeList">
+	SELECT * 
+	  FROM notice 
+	 WHERE 1=1
+	   AND start_date <![CDATA[<=]]> date_format(sysdate(), '%Y%m%d') 
+	   AND end_date <![CDATA[>]]> date_format(sysdate(), '%Y%m%d') 
+ 	 LIMIT ${amount * (pageNum-1)}, ${amount}
+</select>
+
+<select id= "count" resultType = "int">
+	SELECT count(*) 
+	  FROM notice 
+	 WHERE 1=1
+	   AND start_date <![CDATA[<=]]> date_format(sysdate(), '%Y%m%d') 
+	   AND end_date <![CDATA[>]]> date_format(sysdate(), '%Y%m%d') 
+</select>
+
+<select id= "findOne" parameterType = "int" resultType = "net.skhu.dto.Notice">
+	SELECT *
+	  FROM notice 
+	 WHERE 1=1
+	   AND start_date <![CDATA[<=]]> date_format(sysdate(), '%Y%m%d') 
+	   AND end_date <![CDATA[>]]> date_format(sysdate(), '%Y%m%d') 
+	   AND seq = #{seq}
+</select>
+
+<insert id= "insert" parameterType = "net.skhu.dto.Notice">
+	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
+	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
+</insert>
+
+<update id="viewCnt" parameterType ="int">
+	UPDATE notice 
+	   SET views = views + 1 
+	 WHERE seq = #{seq}
+</update>
+
+<update id= "update" parameterType = "net.skhu.dto.Notice">
+	UPDATE notice
+	   SET subject = #{subject},
+	   		contents = #{contents},
+	   		date = #{date},
+	   		start_date = #{start_date},
+	   		end_date = #{end_date},
+	   		writer = #{writer}
+	 WHERE seq = #{seq}
+</update>
+
+<delete id= "delete">
+	DELETE FROM notice 
+	WHERE seq = #{seq} 
+</delete>
+
+	<resultMap type="net.skhu.dto.Notice" id="NoticeList">
+		<id property="seq" column="SEQ"/>
+		<result property="subject" column="SUBJECT"/>
+		<result property="writer" column="WRITER"/>
+		<result property="date" column="DATE"/>
+		<result property="views" column="VIEWS"/>
+	</resultMap>
+	
+</mapper>
