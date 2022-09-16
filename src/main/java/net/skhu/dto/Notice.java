@@ -11,12 +11,12 @@ import lombok.Setter;
 public class Notice implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	int seq;
-	String subject;
-	String contents;
-	Date date;
-	Date start_date;
-	Date end_date;
-	int views;
-	String writer;
+	private int seq;
+	private String subject;
+	private String contents;
+	private Date date;
+	private Date start_date;
+	private Date end_date;
+	private int views;
+	private String writer;
 }

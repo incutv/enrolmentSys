@@ -15,22 +15,22 @@ public interface NoticeMapper {
 	List<Notice> findAll(Criteria criteria);
 
 	// 공지사항 총 게시글 수
-	int count();
+	int countNotice();
 
 	// 공지사항 상세보기
 	Notice findOne(int seq);
 
 	// 공지사항 추가
-	void insert(Notice notice);
+	int insertNotice(Notice notice);
 
 	// 조회수 증가
-	void viewCnt(int seq);
+	int viewCnt(int seq);
 
 	// 공지사항 수정
-	void update(Notice notice);
+	int updateNotice(Notice notice);
 
 	// 공지사항 삭제
-	void delete(int seq);
+	int deleteNotice(int seq);
 
 
 }

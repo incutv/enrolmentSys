@@ -1,6 +1,5 @@
 package net.skhu.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ import net.skhu.mapper.NoticeMapper;
     @ApiResponse(code = 500, message = "Internal Server Error")
 })
 @RestController
-@RequestMapping("/")
+@RequestMapping("/notice")
 public class NoticeApiController {
 
 	private final NoticeMapper noticeMapper;
@@ -35,50 +35,38 @@ public class NoticeApiController {
 	}
 
 	@ApiOperation(value="리스트", notes="공지사항 리스트출력")
-	@GetMapping("/list")
+	@GetMapping("/apiList")
+	@ResponseBody
 	public List<Notice> list(Criteria cri) {
 		List<Notice> notices = noticeMapper.findAll(cri);
 		return notices;
 	}
 
-
-	@ApiOperation(value="작성", notes="공지사항 기본값 작성")
-	@GetMapping("/write")
-	public Notice write() {
-		Notice notice = new Notice();
-
-		notice.setDate(new Date());
-		notice.setStart_date(new Date());
-		notice.setEnd_date(new Date());
-		notice.setViews(0);
-		noticeMapper.insert(notice);
-
-		return notice;
-	}
-
 	@ApiOperation(value="작성", notes="공지사항 저장")
-	@PostMapping("/write")
-	public void write(@RequestBody Notice notice) {
-		noticeMapper.insert(notice);
+	@PostMapping("/apiWrite")
+	public Notice write(@RequestBody Notice notice) {
+		noticeMapper.insertNotice(notice);
+		return notice;
 	}
 
 
 	@ApiOperation(value="공지사항 클릭", notes="공지사항 클릭한 게시물 검색")
-	@GetMapping("/edit")
+	@GetMapping("/apiEdit")
 	public Notice edit(@RequestParam int seq) {
 		return noticeMapper.findOne(seq);
 	}
 
 	@ApiOperation(value="수정", notes="공지사항 수정")
-	@PutMapping("/edit")
-	public void edit(@RequestBody Notice notice) {
-		noticeMapper.update(notice);
+	@PutMapping("/apiEdit")
+	public Notice edit(@RequestBody Notice notice) {
+		noticeMapper.updateNotice(notice);
+		return notice;
 	}
 
 	@ApiOperation(value="삭제", notes="공지사항 삭제")
-	@DeleteMapping("/delete")
-	public void delete(@RequestParam int seq) {
-		noticeMapper.delete(seq);
+	@DeleteMapping("/apiDelete")
+	public int delete(@RequestParam int seq) {
+		return noticeMapper.deleteNotice(seq);
 	}
 
 }

@@ -1,7 +1,5 @@
 package net.skhu.controller;
 
-import java.util.Date;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,8 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import net.skhu.dto.Criteria;
+import net.skhu.dto.Message;
 import net.skhu.dto.Notice;
 import net.skhu.dto.Pagination;
 import net.skhu.mapper.NoticeMapper;
@@ -36,7 +36,7 @@ public class NoticeController {
 	@GetMapping("/list")
 	public String list(Model model, Criteria cri) {
 		model.addAttribute("notices", noticeMapper.findAll(cri));
-		model.addAttribute("pageMaker", new Pagination(cri, noticeMapper.count()));
+		model.addAttribute("pageMaker", new Pagination(cri, noticeMapper.countNotice()));
 		return "notice/list";
 	}
 
@@ -59,13 +59,15 @@ public class NoticeController {
 	}
 
 	@PostMapping("/write")
-	public String write(@RequestBody Notice notice) {
-		notice.setDate(new Date());
-		notice.setStart_date(new Date());
-		notice.setEnd_date(new Date());
-		notice.setViews(0);
-		noticeMapper.insert(notice);
-		return "redirect: /view?seq=" + notice.getSeq();
+	public ModelAndView write(@RequestBody Notice notice, ModelAndView mav) {
+		if ( noticeMapper.insertNotice(notice) > 0 )
+			mav.addObject("data", new Message("공지사항이 등록되었습니다.", "redirect:/view?seq=" + notice.getSeq()));
+		else
+			mav.addObject("data", new Message("오류", "redirect:/list"));
+
+		mav.setViewName("Message");
+
+		return mav;
 	}
 
 	//수정
@@ -77,16 +79,28 @@ public class NoticeController {
 	}
 
 	@PutMapping("/edit")
-	public String edit(@RequestBody Notice notice) {
-		noticeMapper.update(notice);
-		return "redirect:list";
+	public ModelAndView edit(@RequestBody Notice notice, ModelAndView mav) {
+		if ( noticeMapper.updateNotice(notice) > 0 )
+			mav.addObject("data", new Message("수정되었습니다.", "redirect:list"));
+		else
+			mav.addObject("data", new Message("오류", "redirect:list"));
+
+		mav.setViewName("Message");
+
+		return mav;
 	}
 
 	//삭제
 	@DeleteMapping("/delete")
-	public String delete(Model model, @RequestParam("seq") int seq) {
-		noticeMapper.delete(seq);
-		return "redirect:list";
+	public ModelAndView delete(@RequestParam("seq") int seq, ModelAndView mav) {
+		if ( noticeMapper.deleteNotice(seq) > 0 )
+			mav.addObject("data", new Message("삭제되었습니다.", "redirect:list"));
+		else
+			mav.addObject("data", new Message("오류", "redirect:list"));
+
+		mav.setViewName("Message");
+
+		return mav;
 	}
 
 }

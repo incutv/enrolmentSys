@@ -13,7 +13,7 @@
  	 LIMIT ${amount * (pageNum-1)}, ${amount}
 </select>
 
-<select id= "count" resultType = "int">
+<select id= "countNotice" resultType = "int">
 	SELECT count(*) 
 	  FROM notice 
 	 WHERE 1=1
@@ -30,7 +30,7 @@
 	   AND seq = #{seq}
 </select>
 
-<insert id= "insert" parameterType = "net.skhu.dto.Notice">
+<insert id= "insertNotice" parameterType = "net.skhu.dto.Notice">
 	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
 	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
 </insert>
@@ -41,7 +41,7 @@
 	 WHERE seq = #{seq}
 </update>
 
-<update id= "update" parameterType = "net.skhu.dto.Notice">
+<update id= "updateNotice" parameterType = "net.skhu.dto.Notice">
 	UPDATE notice
 	   SET subject = #{subject},
 	   		contents = #{contents},
@@ -52,7 +52,7 @@
 	 WHERE seq = #{seq}
 </update>
 
-<delete id= "delete">
+<delete id= "deleteNotice">
 	DELETE FROM notice 
 	WHERE seq = #{seq} 
 </delete>

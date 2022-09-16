@@ -33,8 +33,10 @@ public class SwaggerConfig {
                 .groupName(version)
                 .apiInfo(this.apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("net.skhu"))
+                .apis(RequestHandlerSelectors.basePackage("net.skhu.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
+
+
 }
