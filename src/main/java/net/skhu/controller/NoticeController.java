@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,8 +77,8 @@ public class NoticeController {
 		return "notice/edit";
 	}
 
-	@PutMapping("/edit")
-	public ModelAndView edit(@RequestBody Notice notice, ModelAndView mav) {
+	@PostMapping("/edit")
+	public ModelAndView edit(@RequestParam Notice notice, ModelAndView mav) {
 		if ( noticeMapper.updateNotice(notice) > 0 )
 			mav.addObject("data", new Message("수정되었습니다.", "redirect:list"));
 		else
