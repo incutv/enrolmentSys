@@ -28,9 +28,11 @@ function goWrite(frm) {
 <h2 style="text-align: center;">글 작성</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
-	<form method="post" action="/write">
+	<form method="post" action="write">
 		<input type="text" name="writer" style="width: 20%;" placeholder="작성자"/><br>
 		<input type="text" name="subject" style="width: 40%;" placeholder="제목"/>
+		<input type="date" name="start_date" style="width: 40%;" placeholder="시작일자"/>
+		<input type="date" name="end_date" style="width: 40%;" placeholder="종료일자"/>
 		<br><br> 
 		<textarea id="contents" name="contents"></textarea>
 		<input id="subBtn" type="button" value="글 작성" style="float: right;" onclick="goWrite(this.form)"/>

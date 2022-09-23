@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import net.skhu.dto.Criteria;
 import net.skhu.dto.Notice;
-import net.skhu.mapper.NoticeMapper;
+import net.skhu.service.NoticeService;
 
 @ApiResponses({
     @ApiResponse(code = 200, message = "Success"),
@@ -28,24 +28,24 @@ import net.skhu.mapper.NoticeMapper;
 @RequestMapping("/notice")
 public class NoticeApiController {
 
-	private final NoticeMapper noticeMapper;
+	private final NoticeService noticeService;
 
-	public NoticeApiController(NoticeMapper noticeMapper) {
-		this.noticeMapper = noticeMapper;
+	public NoticeApiController(NoticeService noticeService) {
+		this.noticeService = noticeService;
 	}
 
 	@ApiOperation(value="리스트", notes="공지사항 리스트출력")
 	@GetMapping("/apiList")
 	@ResponseBody
 	public List<Notice> list(Criteria cri) {
-		List<Notice> notices = noticeMapper.findAll(cri);
+		List<Notice> notices = noticeService.findAll(cri);
 		return notices;
 	}
 
 	@ApiOperation(value="작성", notes="공지사항 저장")
 	@PostMapping("/apiWrite")
 	public Notice write(@RequestBody Notice notice) {
-		noticeMapper.insertNotice(notice);
+		noticeService.insertNotice(notice);
 		return notice;
 	}
 
@@ -53,20 +53,20 @@ public class NoticeApiController {
 	@ApiOperation(value="공지사항 클릭", notes="공지사항 클릭한 게시물 검색")
 	@GetMapping("/apiEdit")
 	public Notice edit(@RequestParam int seq) {
-		return noticeMapper.findOne(seq);
+		return noticeService.findOne(seq);
 	}
 
 	@ApiOperation(value="수정", notes="공지사항 수정")
 	@PutMapping("/apiEdit")
 	public Notice edit(@RequestBody Notice notice) {
-		noticeMapper.updateNotice(notice);
+		noticeService.updateNotice(notice);
 		return notice;
 	}
 
 	@ApiOperation(value="삭제", notes="공지사항 삭제")
 	@DeleteMapping("/apiDelete")
 	public int delete(@RequestParam int seq) {
-		return noticeMapper.deleteNotice(seq);
+		return noticeService.deleteNotice(seq);
 	}
 
 }

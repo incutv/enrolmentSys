@@ -34,14 +34,16 @@ $(document).ready(function() {
 <h2 style="text-align: center;">글 수정</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
-	<form method="post" action="/edit" >
+	<form method="post" action="edit"  enctype="application/x-www-form-urlencoded">
 		<input type="hidden" name="seq" value="${notice.seq}">
 		<input type="text" name="writer" style="width: 20%;" placeholder="작성자" value="${notice.writer }" readonly/><br>
 		<input type="text" name="subject" style="width: 40%;" placeholder="제목" value="${notice.subject }">
-		<input type="hidden" name="_method" value="post"/>
+		<input type="date" name="start_date" style="width: 40%;" placeholder="시작일자" value="${notice.start_date }">
+		<input type="date" name="end_date" style="width: 40%;" placeholder="종료일자" value="${notice.end_date }">		
 		<br><br> 
 		<textarea id="summernote" name="contents"></textarea>
 		<input id="subBtn" type="button" value="글 수정" style="float: right;" onclick="goModify(this.form)"/>
+		<!-- <input type="hidden" name="_method" value="post"/> -->
 	</form>
 </div>
 <script>
@@ -49,7 +51,7 @@ function goModify(frm) {
 	var subject = frm.subject.value;
 	var writer = frm.writer.value;
 	var contents = frm.contents.value;
-	
+
 	
 	if (subject.trim() == ''){
 		alert("제목을 입력해주세요");

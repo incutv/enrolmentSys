@@ -28,22 +28,24 @@ li {
 <table class="list">
 <thead>
 <tr>
-<th>신청</th>
 <th>교과목명</th>
 <th>교수</th>
 <th>학점</th>
 <th>강의실</th>
+<th>빈자리</th>
 </tr>
 </thead>
 <tbody>
-<c:forEach var="sugang" items="${ sugangs }">
-<tr>
-<td><a href="studentList?id=${ sugang.id }">신청</a></td>
-<td>${ sugang.title }</td>
-<td>${ sugang.professorName }</td>
-<td>학점</td>
-<td>${ sugang.room }</td>
-</tr>
+<c:forEach var="student" items="${ students }">
+	<c:forEach var="lecture" items="${ student.lecture }">
+		<tr>
+		<td>${ lecture.title }</td>
+		<td>${ lecture.name }</td>
+		<td>${ lecture.credit }</td>
+		<td>${ lecture.room }</td>
+		<td>${ lecture.seatCnt }</td>
+		</tr>
+	</c:forEach>
 </c:forEach>
 </tbody>
 </table>

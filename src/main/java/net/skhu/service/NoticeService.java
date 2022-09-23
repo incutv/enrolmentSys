@@ -1,14 +1,11 @@
-package net.skhu.mapper;
+package net.skhu.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 
 import net.skhu.dto.Criteria;
 import net.skhu.dto.Notice;
 
-@Mapper
-public interface NoticeMapper {
+public interface NoticeService {
 	// 공지사항 조회
 	List<Notice> findAll(Criteria criteria);
 
@@ -29,6 +26,5 @@ public interface NoticeMapper {
 
 	// 공지사항 삭제
 	int deleteNotice(int seq);
-
 
 }

@@ -5,12 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import net.skhu.dto.Lecture;
+import net.skhu.dto.Student;
 import net.skhu.dto.Sugang;
 
 @Mapper
 public interface SugangMapper {
 	//학생별 수강신청내역리스트
-	List<Sugang> studentSugangList(String studentNo);
+//	HashMap<K, V> studentSugangList(String studentNo);
+	List<Student> studentSugangList(int id);
 
 	//수강신청화면
 	List<Lecture> sugangList();

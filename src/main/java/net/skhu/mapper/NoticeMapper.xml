@@ -9,16 +9,24 @@
 	  FROM notice 
 	 WHERE 1=1
 	   AND start_date <![CDATA[<=]]> date_format(sysdate(), '%Y%m%d') 
-	   AND end_date <![CDATA[>]]> date_format(sysdate(), '%Y%m%d') 
+	   AND end_date <![CDATA[>=]]> date_format(sysdate(), '%Y%m%d') 
  	 LIMIT ${amount * (pageNum-1)}, ${amount}
 </select>
+
+<resultMap type="net.skhu.dto.Notice" id="NoticeList">
+	<id property="seq" column="SEQ"/>
+	<result property="subject" column="SUBJECT"/>
+	<result property="writer" column="WRITER"/>
+	<result property="date" column="DATE"/>
+	<result property="views" column="VIEWS"/>
+</resultMap>
 
 <select id= "countNotice" resultType = "int">
 	SELECT count(*) 
 	  FROM notice 
 	 WHERE 1=1
 	   AND start_date <![CDATA[<=]]> date_format(sysdate(), '%Y%m%d') 
-	   AND end_date <![CDATA[>]]> date_format(sysdate(), '%Y%m%d') 
+	   AND end_date <![CDATA[>=]]> date_format(sysdate(), '%Y%m%d') 
 </select>
 
 <select id= "findOne" parameterType = "int" resultType = "net.skhu.dto.Notice">
@@ -26,7 +34,7 @@
 	  FROM notice 
 	 WHERE 1=1
 	   AND start_date <![CDATA[<=]]> date_format(sysdate(), '%Y%m%d') 
-	   AND end_date <![CDATA[>]]> date_format(sysdate(), '%Y%m%d') 
+	   AND end_date <![CDATA[>=]]> date_format(sysdate(), '%Y%m%d') 
 	   AND seq = #{seq}
 </select>
 
@@ -45,7 +53,6 @@
 	UPDATE notice
 	   SET subject = #{subject},
 	   		contents = #{contents},
-	   		date = #{date},
 	   		start_date = #{start_date},
 	   		end_date = #{end_date},
 	   		writer = #{writer}
@@ -57,12 +64,6 @@
 	WHERE seq = #{seq} 
 </delete>
 
-	<resultMap type="net.skhu.dto.Notice" id="NoticeList">
-		<id property="seq" column="SEQ"/>
-		<result property="subject" column="SUBJECT"/>
-		<result property="writer" column="WRITER"/>
-		<result property="date" column="DATE"/>
-		<result property="views" column="VIEWS"/>
-	</resultMap>
+
 	
 </mapper>

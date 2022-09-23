@@ -15,6 +15,7 @@
 <th>교수</th>
 <th>학점</th>
 <th>강의실</th>
+<th>빈자리</th>
 <th>선택</th>
 </tr>
 <tr>
@@ -26,11 +27,12 @@
 <td>${ lecture.professor.name }</td>
 <td>${ lecture.credit }</td>
 <td>${ lecture.room }</td>
+<td>${ lecture.seatCnt }</td>
 <td><input type="checkbox" value=${ lecture.id } id="item_list" name="item_list"></td>
 </tr>
 </c:forEach>
 </tbody>
 </table>
-<p align="right"><input type="submit" value="수강신청"></p>
+<p align="left"><input type="submit" value="수강신청"></p>
 </body>
 </html>

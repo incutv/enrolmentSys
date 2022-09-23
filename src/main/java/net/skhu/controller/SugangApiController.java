@@ -12,8 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import net.skhu.dto.Lecture;
-import net.skhu.dto.Sugang;
-import net.skhu.mapper.SugangMapper;
+import net.skhu.dto.Student;
+import net.skhu.service.SugangService;
 
 @ApiResponses(value = {
     @ApiResponse(code = 200, message = "Success"),
@@ -24,25 +24,25 @@ import net.skhu.mapper.SugangMapper;
 @RequestMapping("/sugang")
 public class SugangApiController {
 
-	private final SugangMapper sugangMapper;
+	private final SugangService sugangService;
 
-	public SugangApiController(SugangMapper sugangMapper) {
-		this.sugangMapper = sugangMapper;
+	public SugangApiController(SugangService sugangService) {
+		this.sugangService = sugangService;
 	}
 
 	@ApiOperation(value="리스트", notes="학생별 수강신청 리스트")
 	@GetMapping("/apiStudentList")
 	@ResponseBody
-	public List<Sugang> studentList(@RequestParam("id") String id) {
-		List<Sugang> sugangs = sugangMapper.studentSugangList(id);
-		return sugangs;
+	public List<Student> studentList(@RequestParam("id") int id) {
+		List<Student> students = sugangService.studentSugangList(id);
+		return students;
 	}
 
 	@ApiOperation(value="리스트", notes="수강신청 리스트")
 	@GetMapping("/apiList")
 	@ResponseBody
 	public List<Lecture> list() {
-		List<Lecture> sugangs = sugangMapper.sugangList();
+		List<Lecture> sugangs = sugangService.sugangList();
 		return sugangs;
 	}
 

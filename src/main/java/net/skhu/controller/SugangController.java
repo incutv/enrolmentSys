@@ -11,37 +11,38 @@ import org.springframework.web.servlet.ModelAndView;
 
 import net.skhu.dto.Message;
 import net.skhu.dto.Sugang;
-import net.skhu.mapper.SugangMapper;
+import net.skhu.service.SugangService;
 
 @Controller
 @RequestMapping("/sugang")
 public class SugangController {
 
-	private final SugangMapper sugangMapper;
+	private final SugangService sugangService;
 
-	public SugangController(SugangMapper sugangMapper) {
-		this.sugangMapper = sugangMapper;
+	public SugangController(SugangService sugangService) {
+		this.sugangService = sugangService;
 	}
 
 	//학생별 수강신청내역
 	@GetMapping("/studentList")
-	public String list(Model model, @RequestParam("id") String id) {
-		model.addAttribute("sugangs", sugangMapper.studentSugangList(id));
+	public String list(Model model, @RequestParam("id") int id) {
+		//List<Student> students = sugangMapper.studentSugangList(id);
+		model.addAttribute("students", sugangService.studentSugangList(id));
 		return "sugang/studentList";
 	}
 
 	//수강신청리스트
 	@GetMapping("/list")
 	public String enrolment(Model model) {
-		model.addAttribute("lectures", sugangMapper.sugangList());
+		model.addAttribute("lectures", sugangService.sugangList());
 		return "sugang/list";
 	}
 
 	//수강신청
 	@PostMapping("/list")
 	public ModelAndView enrolment(@RequestBody Sugang sugang, ModelAndView mav) {
-		if ( sugangMapper.countSugang(sugang.getLectureId()) == "OK") {
-			sugangMapper.insertSugang(sugang);
+		if ( sugangService.countSugang(sugang.getLectureId()) == "OK") {
+			sugangService.insertSugang(sugang);
 			mav.addObject("data", new Message("신청 완료!", "redirect:list"));
 			mav.setViewName("Message");
 		}
@@ -52,8 +53,5 @@ public class SugangController {
 
 		return mav;
 	}
-
-
-
 }
 

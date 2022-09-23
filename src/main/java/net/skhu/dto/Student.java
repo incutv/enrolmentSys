@@ -1,5 +1,7 @@
 package net.skhu.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +16,10 @@ public class Student {
 	private String phone;
 	private String sex;
 	private String email;
+	private String seatCnt;
 
 	private Sugang sugang;
 	private Professor professor;
-	private Lecture lecture;
+	private List<Lecture> lecture;
 	private Department department;
 }

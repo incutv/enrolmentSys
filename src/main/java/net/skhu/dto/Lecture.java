@@ -14,7 +14,8 @@ public class Lecture {
 	private int professorId;
 	private int year;
 	private String semaster;
+	private String seatCnt;
+	private String name;
 
-	Professor professor;
-
+	private Professor professor;
 }

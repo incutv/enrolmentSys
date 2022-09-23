@@ -1,22 +1,23 @@
 package net.skhu.dto;
 
-import java.io.Serializable;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Notice implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Notice  {
 	private int seq;
 	private String subject;
 	private String contents;
-	private Date date;
-	private Date start_date;
-	private Date end_date;
+	private Date date = new Date();
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date start_date = new Date();
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date end_date = new Date();
 	private int views;
 	private String writer;
 }
