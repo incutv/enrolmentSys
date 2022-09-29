@@ -4,14 +4,14 @@
 
 <mapper namespace="net.skhu.mapper.ReplyMapper">
 
-<select id = "selectReply" resultType = "net.skhu.dto.Reply">
+<select id = "selectReply" resultType = "net.skhu.dto.req.ReqReply">
 	SELECT * 
 	  FROM notice_reply 
 	 WHERE 1=1
 	   AND notice_seq = ${seq}
 </select>
 
-<insert id= "insertNotice" parameterType = "net.skhu.dto.Notice">
+<insert id= "insertNotice" parameterType = "net.skhu.dto.res.ResNotice">
 	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
 	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
 </insert>

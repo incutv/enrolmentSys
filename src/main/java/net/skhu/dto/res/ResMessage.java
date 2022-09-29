@@ -1,18 +1,18 @@
-package net.skhu.dto;
+package net.skhu.dto.res;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Message {
+public class ResMessage {
 
 	private String message;
 	private String href ;
 
-	public Message() {}
+	public ResMessage() {}
 
-	public Message(String message, String href) {
+	public ResMessage(String message, String href) {
 		this.message = message;
 		this.href = href;
 	}

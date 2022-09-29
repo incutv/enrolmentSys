@@ -1,4 +1,4 @@
-package net.skhu.dto;
+package net.skhu.dto.req;
 
 import java.util.Date;
 
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Notice  {
+public class ReqNotice  {
 	private int seq;
 	private String subject;
 	private String contents;

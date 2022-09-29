@@ -13,7 +13,7 @@
  	 LIMIT ${amount * (pageNum-1)}, ${amount}
 </select>
 
-<resultMap type="net.skhu.dto.Notice" id="NoticeList">
+<resultMap type="net.skhu.dto.req.ReqNotice" id="NoticeList">
 	<id property="seq" column="SEQ"/>
 	<result property="subject" column="SUBJECT"/>
 	<result property="writer" column="WRITER"/>
@@ -29,7 +29,7 @@
 	   AND end_date <![CDATA[>=]]> date_format(sysdate(), '%Y%m%d') 
 </select>
 
-<select id= "findOne" parameterType = "int" resultType = "net.skhu.dto.Notice">
+<select id= "findOne" parameterType = "int" resultType = "net.skhu.dto.req.ReqNotice">
 	SELECT *
 	  FROM notice 
 	 WHERE 1=1
@@ -38,7 +38,7 @@
 	   AND seq = #{seq}
 </select>
 
-<insert id= "insertNotice" parameterType = "net.skhu.dto.Notice">
+<insert id= "insertNotice" parameterType = "net.skhu.dto.res.ResNotice">
 	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
 	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
 </insert>
@@ -49,7 +49,7 @@
 	 WHERE seq = #{seq}
 </update>
 
-<update id= "updateNotice" parameterType = "net.skhu.dto.Notice">
+<update id= "updateNotice" parameterType = "net.skhu.dto.res.ResNotice">
 	UPDATE notice
 	   SET subject = #{subject},
 	   		contents = #{contents},
@@ -64,6 +64,4 @@
 	WHERE seq = #{seq} 
 </delete>
 
-
-	
 </mapper>

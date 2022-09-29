@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import net.skhu.dto.Reply;
+import net.skhu.dto.req.ReqReply;
 import net.skhu.mapper.ReplyMapper;
 
 @Service
@@ -17,7 +17,7 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<Reply> selectReply(int seq) {
+	public List<ReqReply> selectReply(int seq) {
 		return replyMapper.selectReply(seq);
 	}
 

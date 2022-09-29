@@ -56,7 +56,7 @@ li {
 	
 	<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
 		<li class="pagination_button">
-			<a href="list?pageNum=${num}&amount=${criteria.amount}">${num}</a>
+			<a href="list?pageNum=${num}&amount=${reqCriteria.amount}">${num}</a>
 		</li>
 	</c:forEach>
 	

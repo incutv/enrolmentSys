@@ -1,9 +1,9 @@
-package net.skhu.dto;
+package net.skhu.dto.req;
 
 import lombok.Getter;
 
 @Getter
-public class Pagination {
+public class ReqPagination {
 
 	private int startPage;
 	private int endPage;
@@ -11,9 +11,9 @@ public class Pagination {
 
 	private int total;
 	//현재 페이지 번호, 한 페이지에 표출할 데이터 개수
-	private Criteria cri;
+	private ReqCriteria cri;
 
-	public Pagination(Criteria cri, int total) {
+	public ReqPagination(ReqCriteria cri, int total) {
 		this.cri = cri;
 		this.total = total;
 

@@ -1,4 +1,4 @@
-package net.skhu.dto;
+package net.skhu.dto.res;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Student {
+public class ResStudent {
 
 	private int id;
 	private String studentNo;
@@ -18,8 +18,8 @@ public class Student {
 	private String email;
 	private String seatCnt;
 
-	private Sugang sugang;
-	private Professor professor;
-	private List<Lecture> lecture;
-	private Department department;
+	private ResSugang sugang;
+	private ResProfessor professor;
+	private List<ResLecture> lecture;
+	private ResDepartment department;
 }

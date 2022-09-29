@@ -1,4 +1,4 @@
-package net.skhu.dto;
+package net.skhu.dto.req;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Reply {
+public class ReqReply {
 
 	private int reply_seq;
 	private int notice_seq;

@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import net.skhu.dto.Criteria;
-import net.skhu.dto.Notice;
+import net.skhu.dto.req.ReqCriteria;
+import net.skhu.dto.req.ReqNotice;
+import net.skhu.dto.res.ResNotice;
 import net.skhu.mapper.NoticeMapper;
 
 @Service
@@ -20,8 +22,14 @@ public class NoticeServiceImpl implements NoticeService{
 
 	@Override
 	@Cacheable(cacheNames="getList")
-	public List<Notice> findAll(Criteria criteria) {
-		return noticeMapper.findAll(criteria);
+	public List<ResNotice> findAll(ReqCriteria criteria) {
+		List<ResNotice> notices =noticeMapper.findAll(criteria);
+
+		if ( notices.size() == 0) {
+			throw new IllegalArgumentException("리스트가 없습니다.");
+		}
+
+		return notices;
 	}
 
 	@Override
@@ -31,12 +39,26 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public Notice findOne(int seq) {
-		return noticeMapper.findOne(seq);
+	public ReqNotice findOne(int seq) {
+		ReqNotice notice = noticeMapper.findOne(seq);
+
+		if (notice == null) {
+			throw new IllegalArgumentException("존재하지 않는 게시물입니다.");
+		}
+
+//		try {
+//
+//		} catch (IllegalArgumentException e) {
+//			System.out.println("1");
+//		} catch (NullPointerException e) {
+//			System.out.println("2");
+//		}
+
+		return notice;
 	}
 
 	@Override
-	public int insertNotice(Notice notice) {
+	public int insertNotice(ReqNotice notice) {
 		return noticeMapper.insertNotice(notice);
 	}
 
@@ -46,14 +68,15 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	public int updateNotice(Notice notice) {
+	@Transactional
+	public int updateNotice(ReqNotice notice) {
 		return noticeMapper.updateNotice(notice);
 	}
 
 	@Override
+	@Transactional
 	public int deleteNotice(int seq) {
 		return noticeMapper.deleteNotice(seq);
 	}
-
 
 }

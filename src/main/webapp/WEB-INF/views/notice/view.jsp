@@ -54,24 +54,67 @@
     <input type="hidden" name="_method" value="delete">
     <a onclick="if (confirm('정말로 삭제하시겠습니까?')) submit();" class="btn btn-danger">삭제</a> 
 	</form> !-->
+	<br>
+		<c:forEach var="replyList" items="${ replyList }">
+		<table border="1">
+			<tr>
+				<!-- 아이디, 작성일자 -->
+				<td width="150">
+					<div>
+						${replyList.reply_writer }<br>
+						<font size="2" color="lightgray"><fmt:formatDate value="${replyList.reply_date}" pattern="yyyy-MM-dd" /> </font>
+					</div>
+				</td>
+				<!-- 본문내용 -->
+				<td width="550">
+					<div class="text_wrapper">
+						${replyList.reply_content }
+					</div>
+				</td>
+				<!-- 버튼 -->
+				<td width="100">
+					<div id="btn" style="text-align:center;">
+						<a href="#">[답변]</a><br>
+					<!-- 댓글작성자만 수정, 삭제 -->
+					<!-- <c:if test="${replyList.reply_writer == sessionScope.sessionID }"> !-->
+						<a href="#">[수정]</a><br>
+						<a href="#">[삭제]</a>
+					<!-- </c:if> !-->
+					</div>
+				</td>
+			</tr>
+		</table>
+		</c:forEach>
+	<!-- 댓글  <c:if test="${sessionScope.sessionID != null }"> -->
+		<table border="1">
+		<tr bgcolor="#F5F5F5">
+		<form id="replyForm">
+			<input type="hidden" name="reply_seq" value="${replyList.reply_seq }">
+			<input type="hidden" name="reply_writer" value = "${replyList.reply_writer }">
+		</form>
+			<!-- 아이디 -->
+			<td width="150">
+				<div>
+					${sessionScope.sessionID }
+				</div>
+			</td>
+			<!-- 본문 -->
+			<td width="550">
+				<div>
+					<textarea name="reply_content" rows="4" cols="70"></textarea>
+				</div>
+			</td>
+			<!-- 댓글등록 -->
+			<td width="100">
+				<div id="btn" style="text-align:center;">
+					<p><a href="#" onclick="writeReply()">[댓글등록]</a></p>
+				</div>
+			</td>
+		</tr>
+		
+		</table>
+		
+	<!-- </c:if> !-->
 </div>
-
-<!-- 댓글 -->
-<div id="reply">
-	<ol class="replyList">
-		<c:forEach items="${replyList }" var="replyList">
-			<li>
-				<p>
-					${replyList.reply_writer }	<fmt:formatDate value="${replyList.reply_date}" pattern="yyyy-MM-dd" /> 
-				</p>
-				
-				<p>${replyList.reply_content }</p>
-			</li>
-		</c:forEach> 
-	</ol>
-</div>
-
-
-
 </body>
 </html>

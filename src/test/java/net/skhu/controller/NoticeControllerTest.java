@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.skhu.dto.Notice;
+import net.skhu.dto.res.ResNotice;
 import net.skhu.mapper.NoticeMapper;
 
 @SpringBootTest
@@ -30,7 +30,7 @@ class NoticeControllerTest {
 	@Transactional
 	void 글쓰기() {
 		//given
-		Notice notice = new Notice();
+		ResNotice notice = new ResNotice();
 		notice.setDate(new Date());
 		notice.setStart_date(new Date());
 		notice.setEnd_date(new Date());
@@ -43,7 +43,7 @@ class NoticeControllerTest {
 		noticeMapper.insertNotice(notice);
 
 		//then
-		Notice result = noticeMapper.findOne(notice.getSeq());
+		ResNotice result = noticeMapper.findOne(notice.getSeq());
 		//Assertions.assertThat(notice).isEqualTo(result);
 		Assertions.assertThat(notice.getSeq()).isEqualTo(result.getSeq());
 	}

@@ -6,7 +6,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import net.skhu.dto.Sugang;
+import net.skhu.dto.res.ResSugang;
 import net.skhu.service.SugangServiceImpl;
 
 
@@ -18,7 +18,7 @@ public class EnrolmentTest {
 		CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
 		SugangServiceImpl sugangService = new SugangServiceImpl(null);
-		Sugang sugang = new Sugang();
+		ResSugang sugang = new ResSugang();
 
 		for(int i =0; i < numberOfThreads; i++) {
 

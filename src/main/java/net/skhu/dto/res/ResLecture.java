@@ -1,11 +1,11 @@
-package net.skhu.dto;
+package net.skhu.dto.res;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Lecture {
+public class ResLecture {
 
 	private int id;
 	private String title;
@@ -17,5 +17,5 @@ public class Lecture {
 	private String seatCnt;
 	private String name;
 
-	private Professor professor;
+	private ResProfessor professor;
 }

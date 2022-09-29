@@ -8,15 +8,16 @@
 	SELECT  l.id , l.title , p.name as professorName, l.room ,l.credit , p.id as professorId,
 			concat((select count(*) from sugang sg where sg.lectureId = l.id ), '/', l.entry) as seatCnt
 	  FROM  lecture l LEFT OUTER JOIN professor p on l.professorId = p.id 
+	 WHERE 1 =2
 </select>
 
-<resultMap id="sugangView" type="net.skhu.dto.Lecture">
+<resultMap id="sugangView" type="net.skhu.dto.res.ResLecture">
 	<id column="id" jdbcType="INTEGER" property="id"/>
 	<result column="title" jdbcType="VARCHAR" property="title"/>
 	<result column="room" jdbcType="VARCHAR" property="room"/>
 	<result column="credit" jdbcType="INTEGER" property="credit"/>
 	<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
-	<collection property="professor" ofType="net.skhu.dto.Professor">
+	<collection property="professor" ofType="net.skhu.dto.res.ResProfessor">
 		<id property="id" column="professorId"/>
 		<result property="name" column="professorName"/>
 	</collection>
@@ -37,23 +38,23 @@
 	WHERE s.id = ${id} 
 </select>
 
-<resultMap id="studentSugangView" type="net.skhu.dto.Student">
+<resultMap id="studentSugangView" type="net.skhu.dto.res.ResStudent">
 	<id column="id" jdbcType="INTEGER" property="id"/>
 		<result column="studentNo" jdbcType="VARCHAR" property="studentNo"/>
 		<result column="name" jdbcType="VARCHAR" property="name"/>
 		<result column="phone" jdbcType="VARCHAR" property="phone"/>
 		<result column="sex" jdbcType="VARCHAR" property="sex"/>
 		<result column="email" jdbcType="VARCHAR" property="email"/>
-	<collection property="department" ofType="net.skhu.dto.Department">
+	<collection property="department" ofType="net.skhu.dto.res.ResDepartment">
 		<id property="id" column="departmentId"/>
 		<result property="name" column="departmentName"/>
 	</collection>
-	<collection property="sugang" ofType="net.skhu.dto.Sugang">
+	<collection property="sugang" ofType="net.skhu.dto.res.ResSugang">
 		<id property="id" column="sugangId"/>
 		<result property="studentId" column="studentId"/>
 		<result property="repeated" column="repeated"/>
 	</collection>
-	<collection property="lecture" ofType="net.skhu.dto.Lecture">
+	<collection property="lecture" ofType="net.skhu.dto.res.ResLecture">
 		<id property="id" column="lectureId"/>
 		<result property="title" column="title"/>
 		<result property="year" column="year"/>
@@ -63,7 +64,7 @@
 		<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
 				<result property="name" column="professorName"/>
 	</collection>
-	<collection property="professor" ofType="net.skhu.dto.Professor">
+	<collection property="professor" ofType="net.skhu.dto.res.ResProfessor">
 		<id property="id" column="professorId"/>
 	</collection>
 </resultMap>
@@ -76,7 +77,7 @@
 	 WHERE  l.id = ${lectureID}
 </select>
 
-<insert id= "insertSugang" parameterType = "net.skhu.dto.Sugang">
+<insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">
 	INSERT INTO sugang ( lectureId, studentId, repeated, cancle)
 	VALUES ( ${lectureId}, ${studentId}, ${repeated}, ${cancle})
 </insert>

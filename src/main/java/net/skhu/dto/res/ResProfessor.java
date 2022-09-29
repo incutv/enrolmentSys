@@ -1,11 +1,11 @@
-package net.skhu.dto;
+package net.skhu.dto.res;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Professor {
+public class ResProfessor {
 
 	private int id;
 	private String name;

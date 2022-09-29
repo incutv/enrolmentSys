@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import net.skhu.dto.Message;
-import net.skhu.dto.Sugang;
+import net.skhu.dto.req.ReqSugang;
+import net.skhu.dto.res.ResMessage;
 import net.skhu.service.SugangService;
 
 @Controller
@@ -40,14 +40,14 @@ public class SugangController {
 
 	//수강신청
 	@PostMapping("/list")
-	public ModelAndView enrolment(@RequestBody Sugang sugang, ModelAndView mav) {
+	public ModelAndView enrolment(@RequestBody ReqSugang sugang, ModelAndView mav) {
 		if ( sugangService.countSugang(sugang.getLectureId()) == "OK") {
 			sugangService.insertSugang(sugang);
-			mav.addObject("data", new Message("신청 완료!", "redirect:list"));
+			mav.addObject("data", new ResMessage("신청 완료!", "redirect:list"));
 			mav.setViewName("Message");
 		}
 		else {
-			mav.addObject("data", new Message("신청인원을 초과하였습니다.", "redirect:list"));
+			mav.addObject("data", new ResMessage("신청인원을 초과하였습니다.", "redirect:list"));
 			mav.setViewName("Message");
 		}
 
