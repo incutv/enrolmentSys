@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.SugangMapper">
+
+<select id= "sugangList" resultMap = "sugangView">
+	SELECT  l.id , l.title , p.name as professorName, l.room ,l.credit , p.id as professorId,
+			concat((select count(*) from sugang sg where sg.lectureId = l.id ), '/', l.entry) as seatCnt
+	  FROM  lecture l LEFT OUTER JOIN professor p on l.professorId = p.id 
+	 WHERE 1 =2
+</select>
+
+<resultMap id="sugangView" type="net.skhu.dto.res.ResLecture">
+	<id column="id" jdbcType="INTEGER" property="id"/>
+	<result column="title" jdbcType="VARCHAR" property="title"/>
+	<result column="room" jdbcType="VARCHAR" property="room"/>
+	<result column="credit" jdbcType="INTEGER" property="credit"/>
+	<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
+	<collection property="professor" ofType="net.skhu.dto.res.ResProfessor">
+		<id property="id" column="professorId"/>
+		<result property="name" column="professorName"/>
+	</collection>
+</resultMap>
+	
+
+
+<select id= "studentSugangList" resultMap = "studentSugangView">
+	SELECT s.id , s.studentNo , s.name , d.id as departmentId, d.name as departmentName, s.phone , 
+			s.sex , s.email ,sg.id as sugangId, sg.studentId, sg.repeated , sg.cancel , sg.grade , 
+			l.title , p.id as professorId,  p.name as professorName, 
+			l.year, l.semaster , l.room, l.credit, l.id as lectureId,
+			 concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
+	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
+					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
+			 		LEFT OUTER JOIN lecture l on sg.lectureId = l.id 
+			 		LEFT OUTER JOIN professor p on l.professorId = p.id
+	WHERE s.id = ${id} 
+</select>
+
+<resultMap id="studentSugangView" type="net.skhu.dto.res.ResStudent">
+	<id column="id" jdbcType="INTEGER" property="id"/>
+		<result column="studentNo" jdbcType="VARCHAR" property="studentNo"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="phone" jdbcType="VARCHAR" property="phone"/>
+		<result column="sex" jdbcType="VARCHAR" property="sex"/>
+		<result column="email" jdbcType="VARCHAR" property="email"/>
+	<collection property="department" ofType="net.skhu.dto.res.ResDepartment">
+		<id property="id" column="departmentId"/>
+		<result property="name" column="departmentName"/>
+	</collection>
+	<collection property="sugang" ofType="net.skhu.dto.res.ResSugang">
+		<id property="id" column="sugangId"/>
+		<result property="studentId" column="studentId"/>
+		<result property="repeated" column="repeated"/>
+	</collection>
+	<collection property="lecture" ofType="net.skhu.dto.res.ResLecture">
+		<id property="id" column="lectureId"/>
+		<result property="title" column="title"/>
+		<result property="year" column="year"/>
+		<result property="semaster" column="semaster"/>
+		<result property="room" column="room"/>
+		<result property="credit" column="credit"/>
+		<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
+				<result property="name" column="professorName"/>
+	</collection>
+	<collection property="professor" ofType="net.skhu.dto.res.ResProfessor">
+		<id property="id" column="professorId"/>
+	</collection>
+</resultMap>
+
+
+<select id= "countSugang" parameterType = "int" resultType = "String">
+	SELECT  case when l.entry > count(*) then "OK"
+  			else "NO" end
+	  FROM  sugang s join lecture l on s.lectureId = l.id 
+	 WHERE  l.id = ${lectureID}
+</select>
+
+<insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">
+	INSERT INTO sugang ( lectureId, studentId, repeated, cancle)
+	VALUES ( ${lectureId}, ${studentId}, ${repeated}, ${cancle})
+</insert>
+
+
+
+</mapper>
+
