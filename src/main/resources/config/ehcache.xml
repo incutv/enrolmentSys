@@ -26,4 +26,14 @@
            memoryStoreEvictionPolicy="LRU">
 	</cache>
 	
+	<cache name="getList2"           
+		   eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="1200"
+           overflowToDisk="false"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+	</cache>
+	
 </ehcache>

@@ -12,8 +12,8 @@
 </select>
 
 <insert id= "insertNotice" parameterType = "net.skhu.dto.res.ResNotice">
-	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
-	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
+	INSERT INTO notice (subject, contents, req_date, start_date, end_date, views, writer ) 
+	VALUES ( #{subject}, #{contents}, #{req_date}, #{start_date}, #{end_date}, 0, #{writer} )
 </insert>
 
 <delete id= "deleteNotice">

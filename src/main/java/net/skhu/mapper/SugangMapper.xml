@@ -8,7 +8,6 @@
 	SELECT  l.id , l.title , p.name as professorName, l.room ,l.credit , p.id as professorId,
 			concat((select count(*) from sugang sg where sg.lectureId = l.id ), '/', l.entry) as seatCnt
 	  FROM  lecture l LEFT OUTER JOIN professor p on l.professorId = p.id 
-	 WHERE 1 =2
 </select>
 
 <resultMap id="sugangView" type="net.skhu.dto.res.ResLecture">
@@ -27,9 +26,9 @@
 
 <select id= "studentSugangList" resultMap = "studentSugangView">
 	SELECT s.id , s.studentNo , s.name , d.id as departmentId, d.name as departmentName, s.phone , 
-			s.sex , s.email ,sg.id as sugangId, sg.studentId, sg.repeated , sg.cancel , sg.grade , 
+			s.sex , s.email ,sg.id as sugangId, sg.studentId, sg.credit , sg.cancel , sg.grade , 
 			l.title , p.id as professorId,  p.name as professorName, 
-			l.year, l.semaster , l.room, l.credit, l.id as lectureId,
+			l.year, l.semester , l.room, l.credit, l.id as lectureId,
 			 concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
 	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
 					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
@@ -52,13 +51,13 @@
 	<collection property="sugang" ofType="net.skhu.dto.res.ResSugang">
 		<id property="id" column="sugangId"/>
 		<result property="studentId" column="studentId"/>
-		<result property="repeated" column="repeated"/>
+		<result property="credit" column="credit"/>
 	</collection>
 	<collection property="lecture" ofType="net.skhu.dto.res.ResLecture">
 		<id property="id" column="lectureId"/>
 		<result property="title" column="title"/>
 		<result property="year" column="year"/>
-		<result property="semaster" column="semaster"/>
+		<result property="semester" column="semester"/>
 		<result property="room" column="room"/>
 		<result property="credit" column="credit"/>
 		<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
@@ -78,8 +77,8 @@
 </select>
 
 <insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">
-	INSERT INTO sugang ( lectureId, studentId, repeated, cancle)
-	VALUES ( ${lectureId}, ${studentId}, ${repeated}, ${cancle})
+	INSERT INTO sugang ( lectureId, studentId, year, semester, credit, cancel)
+	VALUES ( ${lectureId}, ${studentId}, ${year}, ${semester}, ${credit}, ${cancel})
 </insert>
 
 

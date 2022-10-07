@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.skhu.dto.Message;
 import net.skhu.dto.req.ReqCriteria;
 import net.skhu.dto.req.ReqNotice;
 import net.skhu.dto.res.ResNotice;
@@ -23,36 +24,35 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	@Cacheable(cacheNames="getList")
 	public List<ResNotice> findAll(ReqCriteria criteria) {
+		try {
+			Thread.sleep(2000);
+		} catch(InterruptedException e) {
+			throw new IllegalStateException(e);
+		}
+
+		//List<Map<String, String>> notices =noticeMapper.findAll(criteria);
 		List<ResNotice> notices =noticeMapper.findAll(criteria);
 
 		if ( notices.size() == 0) {
-			throw new IllegalArgumentException("리스트가 없습니다.");
+			throw new IllegalArgumentException(Message.NOT_FOUND_LIST.getMessage());
 		}
 
 		return notices;
 	}
 
 	@Override
-	@Cacheable(cacheNames="getList")
+	@Cacheable(cacheNames="getList2")
 	public int countNotice() {
 		return noticeMapper.countNotice();
 	}
 
 	@Override
-	public ReqNotice findOne(int seq) {
-		ReqNotice notice = noticeMapper.findOne(seq);
+	public ResNotice findOne(int seq) {
+		ResNotice notice = noticeMapper.findOne(seq);
 
 		if (notice == null) {
-			throw new IllegalArgumentException("존재하지 않는 게시물입니다.");
+			throw new IllegalArgumentException(Message.NOT_FOUND_ONE.getMessage());
 		}
-
-//		try {
-//
-//		} catch (IllegalArgumentException e) {
-//			System.out.println("1");
-//		} catch (NullPointerException e) {
-//			System.out.println("2");
-//		}
 
 		return notice;
 	}

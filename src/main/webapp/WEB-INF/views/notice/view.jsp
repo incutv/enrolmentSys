@@ -30,7 +30,7 @@
 		<tr>
 			<td>
 				작성자: ${notice.writer }
-				<span style="float: right;"><fmt:formatDate value="${notice.date }" pattern="yyyy.MM.dd"/></span>
+				<span style="float: right;"><fmt:formatDate value="${notice.req_date }" pattern="yyyy.MM.dd"/></span>
 			</td>
 		</tr>
 		<tr>

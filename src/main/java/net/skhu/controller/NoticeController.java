@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.skhu.dto.Message;
 import net.skhu.dto.req.ReqCriteria;
 import net.skhu.dto.req.ReqNotice;
 import net.skhu.dto.req.ReqPagination;
 import net.skhu.dto.req.ReqReply;
 import net.skhu.dto.res.ResMessage;
+import net.skhu.dto.res.ResNotice;
 import net.skhu.service.NoticeService;
 import net.skhu.service.ReplyService;
 
@@ -43,7 +45,7 @@ public class NoticeController {
 	//게시물 클릭
 	@GetMapping("/view")
 	public String view(Model model, @RequestParam("seq") int seq) {
-		ReqNotice notice = noticeService.findOne(seq);
+		ResNotice notice = noticeService.findOne(seq);
 		model.addAttribute("notice", notice);
 
 		//조회수 +1
@@ -64,9 +66,9 @@ public class NoticeController {
 	@PostMapping("/write")
 	public ModelAndView write(@ModelAttribute ReqNotice notice, ModelAndView mav) {
 		if ( noticeService.insertNotice(notice) > 0 )
-			mav.addObject("data", new ResMessage("공지사항이 등록되었습니다.", "list"));
+			mav.addObject("data", new ResMessage(Message.APPLY_MESSAGE.getMessage(), "list"));
 		else
-			mav.addObject("data", new ResMessage("오류", "list"));
+			mav.addObject("data", new ResMessage(Message.FAIL_MESSAGE.getMessage(), "list"));
 
 		mav.setViewName("Message");
 
@@ -76,7 +78,7 @@ public class NoticeController {
 	//수정
 	@GetMapping("/edit")
 	public String edit(Model model, @RequestParam("seq") int seq) {
-		ReqNotice notice = noticeService.findOne(seq);
+		ResNotice notice = noticeService.findOne(seq);
 		model.addAttribute("notice", notice);
 		return "notice/edit";
 	}
@@ -84,9 +86,9 @@ public class NoticeController {
 	@PostMapping("/edit")
 	public ModelAndView edit(@ModelAttribute ReqNotice notice, ModelAndView mav) {
 		if ( noticeService.updateNotice(notice) > 0 )
-			mav.addObject("data", new ResMessage("수정되었습니다.", "list"));
+			mav.addObject("data", new ResMessage(Message.EDIT_MESSAGE.getMessage(), "list"));
 		else
-			mav.addObject("data", new ResMessage("오류", "list"));
+			mav.addObject("data", new ResMessage(Message.FAIL_MESSAGE.getMessage(), "list"));
 
 		mav.setViewName("Message");
 
@@ -97,9 +99,9 @@ public class NoticeController {
 	@GetMapping("/delete")
 	public ModelAndView delete( int seq, ModelAndView mav) {
 		if ( noticeService.deleteNotice(seq) > 0 )
-			mav.addObject("data", new ResMessage("삭제되었습니다.", "list"));
+			mav.addObject("data", new ResMessage(Message.DELETE_MESSAGE.getMessage(), "list"));
 		else
-			mav.addObject("data", new ResMessage("오류", "list"));
+			mav.addObject("data", new ResMessage(Message.FAIL_MESSAGE.getMessage(), "list"));
 
 		mav.setViewName("Message");
 

@@ -14,7 +14,7 @@ public interface NoticeService {
 	int countNotice();
 
 	// 공지사항 상세보기
-	ReqNotice findOne(int seq);
+	ResNotice findOne(int seq);
 
 	// 공지사항 추가
 	int insertNotice(ReqNotice notice);

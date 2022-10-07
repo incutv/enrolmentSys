@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.skhu.dto.Message;
 import net.skhu.dto.req.ReqSugang;
 import net.skhu.dto.res.ResLecture;
 import net.skhu.dto.res.ResStudent;
@@ -24,7 +25,7 @@ public class SugangServiceImpl implements SugangService{
 		List<ResStudent> students = sugangMapper.studentSugangList(id);
 
 		if (students.size() == 0) {
-			throw new IllegalArgumentException("학생의 수강신청목록이 없습니다.");
+			throw new IllegalArgumentException(Message.NOT_FOUND_STUDENT_SUGANG.getMessage());
 		}
 
 		return students;
@@ -36,7 +37,7 @@ public class SugangServiceImpl implements SugangService{
 		List<ResLecture> sugangs = sugangMapper.sugangList();
 
 		if (sugangs.size() == 0) {
-			throw new NullPointerException("수강신청할 과목이 없습니다.");
+			throw new NullPointerException(Message.NOT_FOUND_SUGANG.getMessage());
 		}
 
 		return sugangs;
@@ -49,7 +50,20 @@ public class SugangServiceImpl implements SugangService{
 
 	@Override
 	@Transactional
-	public int insertSugang(ReqSugang sugang) {
-		return sugangMapper.insertSugang(sugang);
+	public synchronized int insertSugang(ReqSugang sugang) {
+		Thread thread = new Thread();
+		try {
+			thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if ( countSugang(sugang.getLectureId()).equals("OK")) {
+			return sugangMapper.insertSugang(sugang);
+		}
+		else {
+			throw new NullPointerException(Message.SUGANG_FULL.getMessage());
+		}
 	}
 }

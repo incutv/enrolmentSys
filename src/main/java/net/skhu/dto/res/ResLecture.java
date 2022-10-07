@@ -13,7 +13,7 @@ public class ResLecture {
 	private int credit;
 	private int professorId;
 	private int year;
-	private String semaster;
+	private int semester;
 	private String seatCnt;
 	private String name;
 

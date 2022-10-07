@@ -11,13 +11,14 @@ import net.skhu.dto.res.ResNotice;
 @Mapper
 public interface NoticeMapper {
 	// 공지사항 조회
-	List<ResNotice> findAll(ReqCriteria criteria);
+	List<ResNotice> findAll(ReqCriteria cri);
+	//List<Map<String, String>> findAll(ReqCriteria cri);
 
 	// 공지사항 총 게시글 수
 	int countNotice();
 
 	// 공지사항 상세보기
-	ReqNotice findOne(int seq);
+	ResNotice findOne(int seq);
 
 	// 공지사항 추가
 	int insertNotice(ReqNotice notice);

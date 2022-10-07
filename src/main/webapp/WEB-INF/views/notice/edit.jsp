@@ -36,6 +36,7 @@ $(document).ready(function() {
 <div style="width: 60%; margin: auto;">
 	<form method="post" action="edit"  enctype="application/x-www-form-urlencoded">
 		<input type="hidden" name="seq" value="${notice.seq}">
+		<input type="hidden" name="update_date" value="${notice.update_date }">
 		<input type="text" name="writer" style="width: 20%;" placeholder="작성자" value="${notice.writer }" readonly/><br>
 		<input type="text" name="subject" style="width: 40%;" placeholder="제목" value="${notice.subject }">
 		<input type="date" name="start_date" style="width: 40%;" placeholder="시작일자" value="${notice.start_date }">
