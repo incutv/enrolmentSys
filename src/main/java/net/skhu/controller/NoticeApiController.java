@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,8 +23,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import net.skhu.dto.req.ReqCriteria;
 import net.skhu.dto.req.ReqNotice;
-import net.skhu.dto.req.ReqReply;
 import net.skhu.dto.res.ResNotice;
+import net.skhu.dto.res.ResReply;
 import net.skhu.dto.res.Response;
 import net.skhu.service.NoticeService;
 import net.skhu.service.ReplyService;
@@ -63,8 +64,18 @@ public class NoticeApiController {
 
 	@ApiOperation(value="작성", notes="공지사항 저장")
 	@PostMapping("")
-	public int write(@RequestBody ReqNotice notice) {
-		return noticeService.insertNotice(notice);
+	public ResponseEntity<String> write(@RequestBody ReqNotice notice) {
+		ResponseEntity<String> entity = null;
+
+        try {
+        	noticeService.insertNotice(notice);
+            entity = new ResponseEntity<String>("regSuccess", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return entity;
 	}
 
 
@@ -85,8 +96,8 @@ public class NoticeApiController {
 
 	@ApiOperation(value="댓글", notes="게시물에 대한 댓글")
 	@GetMapping("/reply/{seq}")
-	public ResponseEntity<Response> replyList(HttpServletRequest request, @PathVariable int seq) {
-		List<ReqReply> reply = replyService.selectReply(seq);
+	public ResponseEntity<Response> replyList(HttpServletRequest request, @PathVariable int seq, ReqCriteria cri) {
+		List<ResReply> reply = replyService.selectReply(seq, cri.getAmount(), cri.getPageNum());
 
 		StringBuffer url = request.getRequestURL();
 

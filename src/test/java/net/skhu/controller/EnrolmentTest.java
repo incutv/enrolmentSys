@@ -6,8 +6,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import net.skhu.dto.Message;
 import net.skhu.dto.req.ReqSugang;
-import net.skhu.service.SugangServiceImpl;
+import net.skhu.mapper.SugangMapper;
 
 
 public class EnrolmentTest {
@@ -17,7 +18,6 @@ public class EnrolmentTest {
 		ExecutorService service = Executors.newFixedThreadPool(10);
 		CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
-		SugangServiceImpl sugangService = new SugangServiceImpl(null);
 		ReqSugang sugang = new ReqSugang();
 
 		for(int i =0; i < numberOfThreads; i++) {
@@ -25,16 +25,32 @@ public class EnrolmentTest {
 			service.execute(() -> {
 
 				sugang.setLectureId(1);
-
-				sugangService.insertSugang(sugang);
+				sugang.setStudentId(1);
+				sugang.setYear(2022);
+				sugang.setSemester(2);
+				sugang.setCredit(3);
+				insertSugang(sugang);
 
 			});
 		}
 
 		latch.await();
-		assertEquals(sugangService.countSugang(1), 30);
+		assertEquals(SugangMapper.countSugang(1), 100);
 	}
 
+
+	public synchronized int insertSugang(ReqSugang sugang) {
+		if ( countSugang(sugang.getLectureId()).equals("OK")) {
+			return SugangMapper.insertSugang(sugang);
+		}
+		else {
+			throw new NullPointerException(Message.SUGANG_FULL.getMessage());
+		}
+	}
+
+	public String countSugang(int lectureId) {
+		return SugangMapper.countSugang(lectureId);
+	}
 
 
 }

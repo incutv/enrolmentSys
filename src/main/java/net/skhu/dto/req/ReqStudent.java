@@ -1,14 +1,13 @@
-package net.skhu.dto.res;
+package net.skhu.dto.req;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ResStudent {
+public class ReqStudent {
 
 	private int id;
 	private String studentNo;
@@ -20,9 +19,4 @@ public class ResStudent {
 	private String seatCnt;
 	private String password;
 	private Date update_date;
-
-	private ResSugang sugang;
-	private ResProfessor professor;
-	private List<ResLecture> lecture;
-	private ResDepartment department;
 }

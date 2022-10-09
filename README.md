@@ -20,9 +20,10 @@ CREATE TABLE `notice_reply` (
   `reply_content` text,
   `reply_writer` varchar(100) NOT NULL,
   `reply_password` varchar(300) NOT NULL,
-  `reply_date` date NOT NULL DEFAULT (curdate()),
+  `reply_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`reply_seq`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 CREATE TABLE `sugang` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -42,12 +43,14 @@ CREATE TABLE `sugang` (
 
 CREATE TABLE `student` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `studentNo` varchar(45) DEFAULT NULL,
+  `studentNo` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `departmentId` int DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `sex` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `email` varchar(45) DEFAULT NULL,
+  `password` varchar(100) NOT NULL COMMENT 'sha256',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_Student_Department_idx` (`departmentId`),
   CONSTRAINT `FK_Student_Department` FOREIGN KEY (`departmentId`) REFERENCES `department` (`id`)

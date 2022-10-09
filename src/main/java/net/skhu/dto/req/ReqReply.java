@@ -16,6 +16,5 @@ public class ReqReply {
 	private String reply_content;
 	private String reply_writer;
 	private String reply_password;
-	private Date reply_date;
-
+	private Date reply_date = new Date();
 }

@@ -18,6 +18,7 @@ import net.skhu.dto.req.ReqPagination;
 import net.skhu.dto.req.ReqReply;
 import net.skhu.dto.res.ResMessage;
 import net.skhu.dto.res.ResNotice;
+import net.skhu.dto.res.ResReply;
 import net.skhu.service.NoticeService;
 import net.skhu.service.ReplyService;
 
@@ -44,17 +45,24 @@ public class NoticeController {
 
 	//게시물 클릭
 	@GetMapping("/view")
-	public String view(Model model, @RequestParam("seq") int seq) {
+	public String view(Model model, @RequestParam("seq") int seq, ReqCriteria cri) {
 		ResNotice notice = noticeService.findOne(seq);
 		model.addAttribute("notice", notice);
 
 		//조회수 +1
 		noticeService.viewCnt(seq);
 
-		List<ReqReply> replyList = replyService.selectReply(seq);
+		List<ResReply> replyList = replyService.selectReply(seq, cri.getAmount(), cri.getPageNum());
 		model.addAttribute("replyList", replyList);
 
 		return "notice/view";
+	}
+
+	@PostMapping("/reply")
+	public String replyWrite(ReqReply reply) {
+		replyService.insertReply(reply);
+
+		return "redirect:view?seq=" + reply.getNotice_seq();
 	}
 
 	//작성
@@ -91,7 +99,7 @@ public class NoticeController {
 			mav.addObject("data", new ResMessage(Message.FAIL_MESSAGE.getMessage(), "list"));
 
 		mav.setViewName("Message");
-
+		//mav.setViewName("edit");
 		return mav;
 	}
 
