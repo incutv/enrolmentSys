@@ -37,15 +37,22 @@ li {
 </thead>
 <tbody>
 <c:forEach var="student" items="${ students }">
-	<c:forEach var="lecture" items="${ student.lecture }">
-		<tr>
+<tr>
+	<td>${ student.title }</td>
+	<td>${ student.name }</td>
+	<td>${ student.credit }</td>
+	<td>${ student.room }</td>
+	<td>${ student.seatCnt }</td>
+</tr>
+	<!-- <c:forEach var="lecture" items="${ student.lecture }"> !-->
+	<%-- 	<tr>
 		<td>${ lecture.title }</td>
 		<td>${ lecture.name }</td>
 		<td>${ lecture.credit }</td>
 		<td>${ lecture.room }</td>
 		<td>${ lecture.seatCnt }</td>
-		</tr>
-	</c:forEach>
+		</tr>  --%>
+	<!-- </c:forEach> !-->
 </c:forEach>
 </tbody>
 </table>

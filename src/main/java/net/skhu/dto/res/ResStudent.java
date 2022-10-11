@@ -21,6 +21,10 @@ public class ResStudent {
 	private String password;
 	private Date update_date;
 
+	private String title;
+	private int credit;
+	private String room;
+
 	private ResSugang sugang;
 	private ResProfessor professor;
 	private List<ResLecture> lecture;

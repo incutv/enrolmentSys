@@ -16,7 +16,7 @@
             memoryStoreEvictionPolicy="LRU">
     </defaultCache>
     
-	<cache name="getList"           
+	<cache name="findAll"           
 		   eternal="false"
            timeToIdleSeconds="0"
            timeToLiveSeconds="1200"
@@ -26,7 +26,7 @@
            memoryStoreEvictionPolicy="LRU">
 	</cache>
 	
-	<cache name="getList2"           
+	<cache name="countNotice"           
 		   eternal="false"
            timeToIdleSeconds="0"
            timeToLiveSeconds="1200"

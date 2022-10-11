@@ -13,7 +13,8 @@ public enum Message {
 	NOT_FOUND_ONE("N2", "존재하지 않는 게시물입니다."),
 	NOT_FOUND_STUDENT_SUGANG("S1", "학생의 수강신청목록이 없습니다."),
 	NOT_FOUND_SUGANG("S2", "수강신청할 과목이 없습니다."),
-	SUGANG_FULL("S3", "수강할 과목의 정원이 가득 찼습니다.");
+	SUGANG_FULL("S3", "수강할 과목의 정원이 가득 찼습니다."),
+	SUGANG_CREDIT_FULL("S4", "한학기당 최대학점을 넘어서 신청할 수 없습니다.");
 
 	private String code;
 	private String message;

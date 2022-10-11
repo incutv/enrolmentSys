@@ -6,32 +6,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>수강신청</title>
-<!--  <script>
-function goSugang(frm) {
-	var valueArr = new Array();
-	var list = $("input[name='lectureId']");
-	for(var i =0; i< list.length; i++){
-		if(list[i].checked){
-			valueArr.push(list[i].value);
-		}
-	}
-	
-	if(valueArr.length==0){
-		alert("선택된 과목이 없습니다.");
-	} else{
-		$.ajax({
-			data : {
-				valueArr : valueArr
+<script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	 $("input:checkbox[name=lectureId]").click(function() {  
+		var customerNumber = $(this).val();  
+		$("input:checked[name=lectureId]").each(function() {    
+			if (customerNumber != $(this).val()) {     
+				$(this).attr("checked", false);
 			}
-		})
-	}
-	
-	
-	frm.submit();
-} 	
+	  	});
+	});
+}); 
 </script>
--->
-
 </head>
 <body>
 <h1>수강신청하기 </h1>
@@ -47,14 +34,15 @@ function goSugang(frm) {
 	</tr>
 	<tr>
 	<tbody>
-	<c:forEach var="lecture" items="${ lectures }">
+	<c:forEach var="lecture" varStatus="status" items="${ lectures }">
 	<tr>
-	<td><input type="hidden" name="lectureId" value=${ lecture.id }>${ lecture.id } </td>
+	<td><input type="hidden" name="lectureId${status.index }" value=${ lecture.id }>${ lecture.id } </td>
 	<td>${ lecture.title }</td>
 	<td>${ lecture.professor.name }</td>
 	<td><input type="hidden" name="credit" value=${ lecture.credit }>${ lecture.credit }</td>
 	<td>${ lecture.room }</td>
 	<td>${ lecture.seatCnt }</td>
+	<!--<td><input type="submit" value="수강신청" id="lectureBtn${status.index }" onclick="goSugang(this.form)"/></td>  -->	
 	<td><input type="checkbox" value=${ lecture.id } id="lectureId" name="lectureId"></td> 
 	</tr>
 	</c:forEach>

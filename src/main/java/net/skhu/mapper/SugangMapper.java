@@ -23,6 +23,8 @@ public interface SugangMapper {
 	//수강신청
 	int insertSugang(ReqSugang sugang);
 
+	//학점조회(학생,년도,학기별 최대학점이상 신청못하게하기위함)
+	int studentCredit(int studentId, int year, int semester);
 
 
 }

@@ -44,16 +44,21 @@ public class SugangController {
 	public ModelAndView enrolment(@ModelAttribute ReqSugang sugang, ModelAndView mav) {
 		System.out.println(sugang.getLectureId() + " / "  + sugangService.countSugang(sugang.getLectureId()) );
 
-		if ( sugangService.insertSugang(sugang) == 1 ) {
-			mav.addObject("data", new ResMessage(Message.APPLY_MESSAGE.getMessage(), "list"));
+		try {
+			if ( sugangService.insertSugang(sugang) == 1 ) {
+				mav.addObject("data", new ResMessage(Message.APPLY_MESSAGE.getMessage(), "list"));
+				mav.setViewName("Message");
+			} else {
+				throw new Exception(Message.FAIL_MESSAGE.getMessage());
+			}
+
+		} catch(Exception e) {
+			mav.addObject("data", new ResMessage(e.getMessage(), "list"));
 			mav.setViewName("Message");
 		}
-//		else {
-//			mav.addObject("data", new ResMessage(Message.SUGANG_FULL.getMessage(), "list"));
-//			mav.setViewName("Message");
-//		}
 
 		return mav;
 	}
+
 }
 

@@ -22,14 +22,23 @@
 	</collection>
 </resultMap>
 	
+<select id= "studentSugangList" resultType="net.skhu.dto.res.ResStudent">
+	SELECT l.title , p.name , l.credit,  l.room, concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
+	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
+					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
+			 		LEFT OUTER JOIN lecture l on sg.lectureId = l.id 
+			 		LEFT OUTER JOIN professor p on l.professorId = p.id
+	WHERE s.id = ${id} 
+</select>
 
 
-<select id= "studentSugangList" resultMap = "studentSugangView">
-	SELECT s.id , s.studentNo , s.name , d.id as departmentId, d.name as departmentName, s.phone , 
-			s.sex , s.email ,sg.id as sugangId, sg.studentId, sg.credit , sg.cancel , sg.grade , 
-			l.title , p.id as professorId,  p.name as professorName, 
-			l.year, l.semester , l.room, l.credit, l.id as lectureId,
-			 concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
+<!-- <select id= "studentSugangList" resultMap = "studentSugangView">
+	SELECT s.id , s.studentNo , s.name , s.phone , s.sex , s.email ,
+			d.id as departmentId, d.name as departmentName, 
+			sg.id as sugangId, sg.studentId, sg.credit , sg.cancel , sg.grade , 
+			l.title , l.year, l.semester , l.room, l.credit, l.id as lectureId,
+			concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt,
+			p.id as professorId,  p.name as professorName
 	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
 					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
 			 		LEFT OUTER JOIN lecture l on sg.lectureId = l.id 
@@ -52,6 +61,8 @@
 		<id property="id" column="sugangId"/>
 		<result property="studentId" column="studentId"/>
 		<result property="credit" column="credit"/>
+		<result property="cancel" column="cancel"/>
+		<result property="grade" column="grade"/>
 	</collection>
 	<collection property="lecture" ofType="net.skhu.dto.res.ResLecture">
 		<id property="id" column="lectureId"/>
@@ -61,12 +72,12 @@
 		<result property="room" column="room"/>
 		<result property="credit" column="credit"/>
 		<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
-				<result property="name" column="professorName"/>
 	</collection>
 	<collection property="professor" ofType="net.skhu.dto.res.ResProfessor">
 		<id property="id" column="professorId"/>
+		<result property="name" column="professorName"/>
 	</collection>
-</resultMap>
+</resultMap> -->
 
 
 <select id= "countSugang" parameterType = "int" resultType = "String">
@@ -74,6 +85,14 @@
   			else "NO" end
 	  FROM  sugang s join lecture l on s.lectureId = l.id 
 	 WHERE  l.id = ${lectureID}
+</select>
+
+<select id= "studentCredit" parameterType = "int" resultType = "int">
+	SELECT   ifnull(sum(credit), 0)
+	  FROM  sugang s  
+	 WHERE  s.studentId = ${studentId}
+	   AND year = ${year}
+	   AND semester =${semester}
 </select>
 
 <insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">

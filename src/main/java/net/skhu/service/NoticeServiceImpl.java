@@ -22,7 +22,7 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	@Cacheable(cacheNames="getList")
+	@Cacheable(cacheNames="findAll")
 	public List<ResNotice> findAll(ReqCriteria criteria) {
 		try {
 			Thread.sleep(2000);
@@ -41,7 +41,7 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 
 	@Override
-	@Cacheable(cacheNames="getList2")
+	@Cacheable(cacheNames="countNotice")
 	public int countNotice() {
 		return noticeMapper.countNotice();
 	}

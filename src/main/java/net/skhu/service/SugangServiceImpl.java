@@ -51,19 +51,24 @@ public class SugangServiceImpl implements SugangService{
 	@Override
 	@Transactional
 	public synchronized int insertSugang(ReqSugang sugang) {
-		Thread thread = new Thread();
-		try {
-			thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int credit = studentCredit(sugang.getStudentId(), sugang.getYear(), sugang.getSemester()) + sugang.getCredit();
+
+		//최대학점 체크
+		if ( credit > 20 ) {
+			throw new NullPointerException(Message.SUGANG_CREDIT_FULL.getMessage());
 		}
 
+		//해당과목 자리 비었나 한번더 확인
 		if ( countSugang(sugang.getLectureId()).equals("OK")) {
 			return sugangMapper.insertSugang(sugang);
 		}
 		else {
 			throw new NullPointerException(Message.SUGANG_FULL.getMessage());
 		}
+	}
+
+	@Override
+	public int studentCredit(int studentId, int year, int semester) {
+		return sugangMapper.studentCredit(studentId, year, semester);
 	}
 }
