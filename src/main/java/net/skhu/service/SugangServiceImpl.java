@@ -43,23 +43,28 @@ public class SugangServiceImpl implements SugangService{
 		return sugangs;
 	}
 
-	@Override
-	public String countSugang(int lectureId) {
-		return sugangMapper.countSugang(lectureId);
-	}
 
 	@Override
 	@Transactional
 	public synchronized int insertSugang(ReqSugang sugang) {
-		int credit = studentCredit(sugang.getStudentId(), sugang.getYear(), sugang.getSemester()) + sugang.getCredit();
+		int studentId = sugang.getStudentId();
+		int year = sugang.getYear();
+		int semester = sugang.getSemester();
+		int lectureCredit = sugang.getCredit();
+		int lectureId = sugang.getLectureId();
+
+		//중복체크
+		if( duplicateCheck(studentId, year, semester, lectureId) > 0 ) {
+			throw new NullPointerException(Message.SUGANG_DUPLICATE.getMessage());
+		}
 
 		//최대학점 체크
-		if ( credit > 20 ) {
+		if ( studentCredit(studentId, year, semester) + lectureCredit > 20 ) {
 			throw new NullPointerException(Message.SUGANG_CREDIT_FULL.getMessage());
 		}
 
 		//해당과목 자리 비었나 한번더 확인
-		if ( countSugang(sugang.getLectureId()).equals("OK")) {
+		if ( countSugang(year, semester, lectureId).equals("OK")) {
 			return sugangMapper.insertSugang(sugang);
 		}
 		else {
@@ -71,4 +76,20 @@ public class SugangServiceImpl implements SugangService{
 	public int studentCredit(int studentId, int year, int semester) {
 		return sugangMapper.studentCredit(studentId, year, semester);
 	}
+
+	@Override
+	public int deleteSugang(int studentId, int lectureId) {
+		return sugangMapper.deleteSugang(studentId, lectureId);
+	}
+
+	@Override
+	public int duplicateCheck(int studentId, int year, int semester, int lectureId) {
+		return sugangMapper.duplicateCheck(studentId, year, semester, lectureId);
+	}
+
+	@Override
+	public String countSugang(int year, int semester, int lectureId) {
+		return sugangMapper.countSugang(year, semester, lectureId);
+	}
+
 }

@@ -24,6 +24,7 @@ public class ResStudent {
 	private String title;
 	private int credit;
 	private String room;
+	private int lectureId;
 
 	private ResSugang sugang;
 	private ResProfessor professor;

@@ -24,6 +24,7 @@
 	
 <select id= "studentSugangList" resultType="net.skhu.dto.res.ResStudent">
 	SELECT l.title , p.name , l.credit,  l.room, concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
+			,s.id , l.id as lectureId
 	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
 					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
 			 		LEFT OUTER JOIN lecture l on sg.lectureId = l.id 
@@ -79,12 +80,13 @@
 	</collection>
 </resultMap> -->
 
-
 <select id= "countSugang" parameterType = "int" resultType = "String">
 	SELECT  case when l.entry > count(*) then "OK"
   			else "NO" end
 	  FROM  sugang s join lecture l on s.lectureId = l.id 
-	 WHERE  l.id = ${lectureID}
+	 WHERE  s.year = ${year}
+	   AND s.semester = ${semester}
+	   AND l.id = ${lectureId}
 </select>
 
 <select id= "studentCredit" parameterType = "int" resultType = "int">
@@ -95,12 +97,25 @@
 	   AND semester =${semester}
 </select>
 
+<select id= "duplicateCheck" parameterType = "int" resultType = "int">
+	SELECT   count(*)
+	  FROM  sugang s  
+	 WHERE  s.studentId = ${studentId}
+	   AND s.year = ${year}
+	   AND s.semester =${semester}
+	   AND s.lectureId = ${lectureId}
+</select>
+
 <insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">
 	INSERT INTO sugang ( lectureId, studentId, year, semester, credit, cancel)
 	VALUES ( ${lectureId}, ${studentId}, ${year}, ${semester}, ${credit}, ${cancel})
 </insert>
 
-
+<insert id= "deleteSugang" parameterType = "int">
+	DELETE FROM sugang
+	WHERE studentId = ${studentId}
+	  AND lectureId = ${lectureId}
+</insert>
 
 </mapper>
 

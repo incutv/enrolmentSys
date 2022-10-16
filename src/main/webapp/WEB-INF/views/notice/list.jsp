@@ -22,6 +22,7 @@ li {
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <div class="container">
 <h1>공지사항</h1>
 <a href="write" class="btn">글쓰기</a>
