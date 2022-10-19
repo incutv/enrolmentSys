@@ -8,7 +8,6 @@
 	SELECT  l.id , l.title , p.name as professorName, l.room ,l.credit , p.id as professorId,
 			concat((select count(*) from sugang sg where sg.lectureId = l.id ), '/', l.entry) as seatCnt
 	  FROM  lecture l LEFT OUTER JOIN professor p on l.professorId = p.id 
-	 WHERE 1 =2
 </select>
 
 <resultMap id="sugangView" type="net.skhu.dto.res.ResLecture">
@@ -23,14 +22,24 @@
 	</collection>
 </resultMap>
 	
+<select id= "studentSugangList" resultType="net.skhu.dto.res.ResStudent">
+	SELECT l.title , p.name , l.credit,  l.room, concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
+			,s.id , l.id as lectureId
+	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
+					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
+			 		LEFT OUTER JOIN lecture l on sg.lectureId = l.id 
+			 		LEFT OUTER JOIN professor p on l.professorId = p.id
+	WHERE s.id = ${id} 
+</select>
 
 
-<select id= "studentSugangList" resultMap = "studentSugangView">
-	SELECT s.id , s.studentNo , s.name , d.id as departmentId, d.name as departmentName, s.phone , 
-			s.sex , s.email ,sg.id as sugangId, sg.studentId, sg.repeated , sg.cancel , sg.grade , 
-			l.title , p.id as professorId,  p.name as professorName, 
-			l.year, l.semaster , l.room, l.credit, l.id as lectureId,
-			 concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt
+<!-- <select id= "studentSugangList" resultMap = "studentSugangView">
+	SELECT s.id , s.studentNo , s.name , s.phone , s.sex , s.email ,
+			d.id as departmentId, d.name as departmentName, 
+			sg.id as sugangId, sg.studentId, sg.credit , sg.cancel , sg.grade , 
+			l.title , l.year, l.semester , l.room, l.credit, l.id as lectureId,
+			concat((select count(*) from sugang s2 where sg.lectureId = s2.lectureId ), '/', l.entry) as seatCnt,
+			p.id as professorId,  p.name as professorName
 	  FROM student s LEFT OUTER JOIN department d on s.departmentId = d.id  
 					LEFT OUTER JOIN sugang sg on s.id = sg.studentId  
 			 		LEFT OUTER JOIN lecture l on sg.lectureId = l.id 
@@ -52,37 +61,61 @@
 	<collection property="sugang" ofType="net.skhu.dto.res.ResSugang">
 		<id property="id" column="sugangId"/>
 		<result property="studentId" column="studentId"/>
-		<result property="repeated" column="repeated"/>
+		<result property="credit" column="credit"/>
+		<result property="cancel" column="cancel"/>
+		<result property="grade" column="grade"/>
 	</collection>
 	<collection property="lecture" ofType="net.skhu.dto.res.ResLecture">
 		<id property="id" column="lectureId"/>
 		<result property="title" column="title"/>
 		<result property="year" column="year"/>
-		<result property="semaster" column="semaster"/>
+		<result property="semester" column="semester"/>
 		<result property="room" column="room"/>
 		<result property="credit" column="credit"/>
 		<result column="seatCnt" jdbcType="VARCHAR" property="seatCnt"/>
-				<result property="name" column="professorName"/>
 	</collection>
 	<collection property="professor" ofType="net.skhu.dto.res.ResProfessor">
 		<id property="id" column="professorId"/>
+		<result property="name" column="professorName"/>
 	</collection>
-</resultMap>
-
+</resultMap> -->
 
 <select id= "countSugang" parameterType = "int" resultType = "String">
 	SELECT  case when l.entry > count(*) then "OK"
   			else "NO" end
 	  FROM  sugang s join lecture l on s.lectureId = l.id 
-	 WHERE  l.id = ${lectureID}
+	 WHERE  s.year = ${year}
+	   AND s.semester = ${semester}
+	   AND l.id = ${lectureId}
+</select>
+
+<select id= "studentCredit" parameterType = "int" resultType = "int">
+	SELECT   ifnull(sum(credit), 0)
+	  FROM  sugang s  
+	 WHERE  s.studentId = ${studentId}
+	   AND year = ${year}
+	   AND semester =${semester}
+</select>
+
+<select id= "duplicateCheck" parameterType = "int" resultType = "int">
+	SELECT   count(*)
+	  FROM  sugang s  
+	 WHERE  s.studentId = ${studentId}
+	   AND s.year = ${year}
+	   AND s.semester =${semester}
+	   AND s.lectureId = ${lectureId}
 </select>
 
 <insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">
-	INSERT INTO sugang ( lectureId, studentId, repeated, cancle)
-	VALUES ( ${lectureId}, ${studentId}, ${repeated}, ${cancle})
+	INSERT INTO sugang ( lectureId, studentId, year, semester, credit, cancel)
+	VALUES ( ${lectureId}, ${studentId}, ${year}, ${semester}, ${credit}, ${cancel})
 </insert>
 
-
+<insert id= "deleteSugang" parameterType = "int">
+	DELETE FROM sugang
+	WHERE studentId = ${studentId}
+	  AND lectureId = ${lectureId}
+</insert>
 
 </mapper>
 

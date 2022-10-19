@@ -10,8 +10,9 @@ public class ReqSugang {
 	private int id;
 	private int lectureId;
 	private int studentId;
-	private int repeated;
-	private int cancle;
+	private int cancel;
 	private String grade;
-
+	private int year;
+	private int semester;
+	private int credit;
 }

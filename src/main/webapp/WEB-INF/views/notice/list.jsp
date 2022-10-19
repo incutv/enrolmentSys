@@ -22,6 +22,7 @@ li {
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/include/header.jsp"/>
 <div class="container">
 <h1>공지사항</h1>
 <a href="write" class="btn">글쓰기</a>
@@ -41,7 +42,7 @@ li {
 <td>${ notice.seq }</td>
 <td><a href="view?seq=${ notice.seq }">${ notice.subject }</a></td>
 <td>${ notice.writer }</td>
-<td><fmt:formatDate pattern="yyyy-MM-dd" value="${ notice.date }"/></td>
+<td><fmt:formatDate pattern="yyyy-MM-dd" value="${ notice.req_date }"/></td>
 <td>${ notice.views }</td>
 </tr>
 </c:forEach>

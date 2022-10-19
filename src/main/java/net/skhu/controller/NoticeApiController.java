@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,8 +24,10 @@ import io.swagger.annotations.ApiResponses;
 import net.skhu.dto.req.ReqCriteria;
 import net.skhu.dto.req.ReqNotice;
 import net.skhu.dto.res.ResNotice;
+import net.skhu.dto.res.ResReply;
 import net.skhu.dto.res.Response;
 import net.skhu.service.NoticeService;
+import net.skhu.service.ReplyService;
 
 @ApiResponses({
     @ApiResponse(code = 200, message = "Success"),
@@ -36,15 +39,18 @@ import net.skhu.service.NoticeService;
 public class NoticeApiController {
 
 	private final NoticeService noticeService;
+	private final ReplyService replyService;
 
-	public NoticeApiController(NoticeService noticeService) {
+	public NoticeApiController(NoticeService noticeService, ReplyService replyService) {
 		this.noticeService = noticeService;
+		this.replyService = replyService;
 	}
 
 	@ApiOperation(value="리스트", notes="공지사항 리스트출력")
 	@GetMapping("")
 	@ResponseBody
 	public ResponseEntity<Response> list(HttpServletRequest request, ReqCriteria cri) {
+		//List<Map<String, String>> notices = noticeService.findAll(cri);
 		List<ResNotice> notices = noticeService.findAll(cri);
 		//String url = request.getContextPath();
 		StringBuffer url = request.getRequestURL();
@@ -58,15 +64,25 @@ public class NoticeApiController {
 
 	@ApiOperation(value="작성", notes="공지사항 저장")
 	@PostMapping("")
-	public int write(@RequestBody ReqNotice notice) {
-		return noticeService.insertNotice(notice);
+	public ResponseEntity<String> write(@RequestBody ReqNotice notice) {
+		ResponseEntity<String> entity = null;
+
+        try {
+        	noticeService.insertNotice(notice);
+            entity = new ResponseEntity<String>("regSuccess", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return entity;
 	}
 
 
 	@ApiOperation(value="공지사항 클릭", notes="공지사항 클릭한 게시물 검색")
 	@GetMapping("/{seq}")
 	public ResponseEntity<Response> edit(HttpServletRequest request, @PathVariable int seq) {
-		ReqNotice notice = noticeService.findOne(seq);
+		ResNotice notice = noticeService.findOne(seq);
 
 		StringBuffer url = request.getRequestURL();
 
@@ -76,6 +92,22 @@ public class NoticeApiController {
 						.url(url.toString())
 						.data(notice).build());
 	}
+
+
+	@ApiOperation(value="댓글", notes="게시물에 대한 댓글")
+	@GetMapping("/reply/{seq}")
+	public ResponseEntity<Response> replyList(HttpServletRequest request, @PathVariable int seq, ReqCriteria cri) {
+		List<ResReply> reply = replyService.selectReply(seq, cri.getAmount(), cri.getPageNum());
+
+		StringBuffer url = request.getRequestURL();
+
+		return ResponseEntity.ok()
+				.body(Response.builder()
+						.message("reply list")
+						.url(url.toString())
+						.data(reply).build());
+	}
+
 
 	@ApiOperation(value="수정", notes="공지사항 수정")
 	@PutMapping("")

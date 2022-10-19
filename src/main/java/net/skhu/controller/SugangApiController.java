@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import net.skhu.dto.req.ReqSugang;
 import net.skhu.dto.res.ResLecture;
 import net.skhu.dto.res.ResStudent;
 import net.skhu.dto.res.Response;
@@ -62,6 +65,13 @@ public class SugangApiController {
 				.url(url.toString())
 				.data(sugangs).build());
 
+	}
+
+	@ApiOperation(value="수강신청", notes="수강신청")
+	@PostMapping("")
+	@ResponseBody
+	public int sugang(@RequestBody ReqSugang sugang) {
+		return sugangService.insertSugang(sugang);
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)

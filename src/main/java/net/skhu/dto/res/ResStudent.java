@@ -1,5 +1,6 @@
 package net.skhu.dto.res;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
@@ -17,6 +18,13 @@ public class ResStudent {
 	private String sex;
 	private String email;
 	private String seatCnt;
+	private String password;
+	private Date update_date;
+
+	private String title;
+	private int credit;
+	private String room;
+	private int lectureId;
 
 	private ResSugang sugang;
 	private ResProfessor professor;

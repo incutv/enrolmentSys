@@ -7,6 +7,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>공지사항 상세보기</title>
+
+<script>
+$(function () {
+	createReply();
+})
+		
+function createReply(frm) {
+	$(".replyWriteBtn").on("click", function() {
+		var formObj = $("form[name='replyForm']");
+		formObj.attr("action", "/notice/reply");
+		formObj.submit();
+	});
+}
+</script>
+
 </head>
 <style>
 	h2 { text-align: center;}
@@ -30,7 +45,7 @@
 		<tr>
 			<td>
 				작성자: ${notice.writer }
-				<span style="float: right;"><fmt:formatDate value="${notice.date }" pattern="yyyy.MM.dd"/></span>
+				<span style="float: right;"><fmt:formatDate value="${notice.req_date }" pattern="yyyy.MM.dd"/></span>
 			</td>
 		</tr>
 		<tr>
@@ -75,23 +90,18 @@
 				<td width="100">
 					<div id="btn" style="text-align:center;">
 						<a href="#">[답변]</a><br>
-					<!-- 댓글작성자만 수정, 삭제 -->
-					<!-- <c:if test="${replyList.reply_writer == sessionScope.sessionID }"> !-->
 						<a href="#">[수정]</a><br>
 						<a href="#">[삭제]</a>
-					<!-- </c:if> !-->
 					</div>
 				</td>
 			</tr>
 		</table>
 		</c:forEach>
-	<!-- 댓글  <c:if test="${sessionScope.sessionID != null }"> -->
+		<form id="replyForm" method="post" action="reply">
 		<table border="1">
 		<tr bgcolor="#F5F5F5">
-		<form id="replyForm">
-			<input type="hidden" name="reply_seq" value="${replyList.reply_seq }">
-			<input type="hidden" name="reply_writer" value = "${replyList.reply_writer }">
-		</form>
+			<input type="hidden" name="notice_seq" value="${notice.seq }">
+			<input type="hidden" name="reply_writer" value = "테스트">
 			<!-- 아이디 -->
 			<td width="150">
 				<div>
@@ -103,18 +113,19 @@
 				<div>
 					<textarea name="reply_content" rows="4" cols="70"></textarea>
 				</div>
+				<div>
+					<input type="text" name="reply_password" placeholder="비밀번호" value="${reply_password }">
+				</div>
 			</td>
 			<!-- 댓글등록 -->
 			<td width="100">
-				<div id="btn" style="text-align:center;">
-					<p><a href="#" onclick="writeReply()">[댓글등록]</a></p>
+				<div>
+					<input id="subBtn" type="submit" value="댓글작성"/>
 				</div>
 			</td>
 		</tr>
-		
 		</table>
-		
-	<!-- </c:if> !-->
+		</form>
 </div>
 </body>
 </html>

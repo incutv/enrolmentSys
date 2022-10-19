@@ -4,7 +4,7 @@
 
 <mapper namespace="net.skhu.mapper.NoticeMapper">
 
-<select id = "findAll" resultMap="NoticeList">
+<select id = "findAll" parameterType = "net.skhu.dto.req.ReqCriteria" resultMap="NoticeList" useCache="true">
 	SELECT * 
 	  FROM notice 
 	 WHERE 1=1
@@ -17,7 +17,7 @@
 	<id property="seq" column="SEQ"/>
 	<result property="subject" column="SUBJECT"/>
 	<result property="writer" column="WRITER"/>
-	<result property="date" column="DATE"/>
+	<result property="req_date" column="REQ_DATE"/>
 	<result property="views" column="VIEWS"/>
 </resultMap>
 
@@ -29,7 +29,7 @@
 	   AND end_date <![CDATA[>=]]> date_format(sysdate(), '%Y%m%d') 
 </select>
 
-<select id= "findOne" parameterType = "int" resultType = "net.skhu.dto.req.ReqNotice">
+<select id= "findOne" parameterType = "int" resultType = "net.skhu.dto.res.ResNotice">
 	SELECT *
 	  FROM notice 
 	 WHERE 1=1
@@ -39,8 +39,8 @@
 </select>
 
 <insert id= "insertNotice" parameterType = "net.skhu.dto.res.ResNotice">
-	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
-	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
+	INSERT INTO notice (subject, contents, req_date, start_date, end_date, views, writer ) 
+	VALUES ( #{subject}, #{contents}, #{req_date}, #{start_date}, #{end_date}, 0, #{writer} )
 </insert>
 
 <update id="viewCnt" parameterType ="int">
@@ -55,7 +55,8 @@
 	   		contents = #{contents},
 	   		start_date = #{start_date},
 	   		end_date = #{end_date},
-	   		writer = #{writer}
+	   		writer = #{writer},
+	   		update_date = #{update_date}
 	 WHERE seq = #{seq}
 </update>
 

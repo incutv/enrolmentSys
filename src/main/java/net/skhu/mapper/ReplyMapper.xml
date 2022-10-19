@@ -4,21 +4,37 @@
 
 <mapper namespace="net.skhu.mapper.ReplyMapper">
 
-<select id = "selectReply" resultType = "net.skhu.dto.req.ReqReply">
+<select id = "selectReply" resultType = "net.skhu.dto.res.ResReply">
 	SELECT * 
 	  FROM notice_reply 
 	 WHERE 1=1
 	   AND notice_seq = ${seq}
+	 LIMIT ${amount * (pageNum-1)}, ${amount}
 </select>
 
-<insert id= "insertNotice" parameterType = "net.skhu.dto.res.ResNotice">
-	INSERT INTO notice (subject, contents, date, start_date, end_date, views, writer ) 
-	VALUES ( #{subject}, #{contents}, #{date}, #{start_date}, #{end_date}, 0, #{writer} )
+<select id = "countReply" resultType = "int">
+	SELECT count(*)
+	  FROM notice_reply 
+	 WHERE notice_seq = ${seq}
+</select>
+
+
+<insert id= "insertReply" parameterType = "net.skhu.dto.req.ReqReply">
+	INSERT INTO notice_reply (notice_seq, parent_id, depth, reply_content, reply_writer, reply_password, reply_date) 
+	VALUES ( #{notice_seq}, #{parent_id}, #{depth}, #{reply_content}, #{reply_writer}, #{reply_password}, #{reply_date} )
 </insert>
 
-<delete id= "deleteNotice">
-	DELETE FROM notice 
-	WHERE seq = #{seq} 
+<insert id= "updateReply" parameterType = "net.skhu.dto.req.ReqReply">
+	UPDATE notice_reply 
+	   SET reply_content = #{reply_content},
+	   		update_date = NOW()
+	 WHERE reply_seq = #{reply_seq} 
+</insert>
+
+
+<delete id= "deleteReply" parameterType = "int">
+	DELETE FROM notice_reply
+	WHERE reply_seq = #{reply_seq} 
 </delete>
 	
 </mapper>

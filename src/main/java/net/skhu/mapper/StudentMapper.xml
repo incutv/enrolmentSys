@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.StudentMapper">
+
+<select id = "loginStudent" parameterType = "net.skhu.dto.req.ReqStudent" resultType = "net.skhu.dto.res.ResStudent">
+	SELECT *
+	  FROM student 
+	 WHERE 1=1
+	   AND studentNo = #{studentNo}
+	   AND password = #{password}
+</select>
+
+<select id = "selectDepartment" resultType = "net.skhu.dto.res.ResDepartment">
+	SELECT *
+	  FROM department
+</select>
+
+<select id = "findByStudentNo" resultType = "net.skhu.dto.res.ResStudent">
+	SELECT *
+	  FROM student
+	 WHERE 1=1
+	   AND studentNo = #{studentNo}
+</select>
+
+<select id= "duplicateCheck" resultType = "int">
+	SELECT   count(*)
+	  FROM  student s  
+	 WHERE  s.studentNo = #{studentNo}
+	   OR s.phone = #{phone}
+	   OR s.email = #{email}
+</select>
+
+<insert id= "insertStudent" parameterType = "net.skhu.dto.req.ReqStudent">
+	INSERT INTO student (studentNo, name, departmentId, phone, sex, email, password) 
+	VALUES ( #{studentNo}, #{name}, #{departmentId}, #{phone}, #{sex}, #{email}, #{password} )
+</insert>
+
+</mapper>
