@@ -1,4 +1,4 @@
-package net.skhu.mapper;
+package net.skhu.mapper.master;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import net.skhu.dto.req.ReqReply;
 import net.skhu.dto.res.ResReply;
 
 @Mapper
-public interface ReplyMapper {
+public interface ReplyMasterMapper {
 
 	List<ResReply> selectReply(int seq, int amount, int pageNum);
 	int countReply(int seq);

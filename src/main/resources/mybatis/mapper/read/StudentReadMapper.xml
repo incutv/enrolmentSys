@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.skhu.mapper.StudentMapper">
+<mapper namespace="net.skhu.mapper.read.StudentReadMapper">
 
 <select id = "loginStudent" parameterType = "net.skhu.dto.req.ReqStudent" resultType = "net.skhu.dto.res.ResStudent">
 	SELECT *
@@ -32,9 +32,5 @@
 	   OR s.email = #{email}
 </select>
 
-<insert id= "insertStudent" parameterType = "net.skhu.dto.req.ReqStudent">
-	INSERT INTO student (studentNo, name, departmentId, phone, sex, email, password) 
-	VALUES ( #{studentNo}, #{name}, #{departmentId}, #{phone}, #{sex}, #{email}, #{password} )
-</insert>
 
 </mapper>

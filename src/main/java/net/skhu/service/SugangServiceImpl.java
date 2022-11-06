@@ -9,20 +9,23 @@ import net.skhu.dto.Message;
 import net.skhu.dto.req.ReqSugang;
 import net.skhu.dto.res.ResLecture;
 import net.skhu.dto.res.ResStudent;
-import net.skhu.mapper.SugangMapper;
+import net.skhu.mapper.master.SugangMasterMapper;
+import net.skhu.mapper.read.SugangReadMapper;
 
 @Service
 public class SugangServiceImpl implements SugangService{
 
-	private final SugangMapper sugangMapper;
+	private SugangMasterMapper sugangMasterMapper;
+	private SugangReadMapper sugangReadMapper;
 
-	public SugangServiceImpl(SugangMapper sugangMapper) {
-		this.sugangMapper = sugangMapper;
+	public SugangServiceImpl(SugangMasterMapper sugangMasterMapper, SugangReadMapper sugangReadMapper) {
+		this.sugangMasterMapper = sugangMasterMapper;
+		this.sugangReadMapper = sugangReadMapper;
 	}
 
 	@Override
 	public List<ResStudent> studentSugangList(int id) {
-		List<ResStudent> students = sugangMapper.studentSugangList(id);
+		List<ResStudent> students = sugangReadMapper.studentSugangList(id);
 
 		if (students.size() == 0) {
 			throw new IllegalArgumentException(Message.NOT_FOUND_STUDENT_SUGANG.getMessage());
@@ -34,7 +37,7 @@ public class SugangServiceImpl implements SugangService{
 
 	@Override
 	public List<ResLecture> sugangList(){
-		List<ResLecture> sugangs = sugangMapper.sugangList();
+		List<ResLecture> sugangs = sugangReadMapper.sugangList();
 
 		if (sugangs.size() == 0) {
 			throw new NullPointerException(Message.NOT_FOUND_SUGANG.getMessage());
@@ -46,7 +49,7 @@ public class SugangServiceImpl implements SugangService{
 
 	@Override
 	@Transactional
-	public synchronized int insertSugang(ReqSugang sugang) {
+	public synchronized void insertSugang(ReqSugang sugang) {
 		int studentId = sugang.getStudentId();
 		int year = sugang.getYear();
 		int semester = sugang.getSemester();
@@ -65,7 +68,7 @@ public class SugangServiceImpl implements SugangService{
 
 		//해당과목 자리 비었나 한번더 확인
 		if ( countSugang(year, semester, lectureId).equals("OK")) {
-			return sugangMapper.insertSugang(sugang);
+			sugangMasterMapper.insertSugang(sugang);
 		}
 		else {
 			throw new NullPointerException(Message.SUGANG_FULL.getMessage());
@@ -74,22 +77,22 @@ public class SugangServiceImpl implements SugangService{
 
 	@Override
 	public int studentCredit(int studentId, int year, int semester) {
-		return sugangMapper.studentCredit(studentId, year, semester);
+		return sugangReadMapper.studentCredit(studentId, year, semester);
 	}
 
 	@Override
 	public int deleteSugang(int studentId, int lectureId) {
-		return sugangMapper.deleteSugang(studentId, lectureId);
+		return sugangMasterMapper.deleteSugang(studentId, lectureId);
 	}
 
 	@Override
 	public int duplicateCheck(int studentId, int year, int semester, int lectureId) {
-		return sugangMapper.duplicateCheck(studentId, year, semester, lectureId);
+		return sugangReadMapper.duplicateCheck(studentId, year, semester, lectureId);
 	}
 
 	@Override
 	public String countSugang(int year, int semester, int lectureId) {
-		return sugangMapper.countSugang(year, semester, lectureId);
+		return sugangReadMapper.countSugang(year, semester, lectureId);
 	}
 
 }

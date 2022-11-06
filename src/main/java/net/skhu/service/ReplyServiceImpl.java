@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 
 import net.skhu.dto.req.ReqReply;
 import net.skhu.dto.res.ResReply;
-import net.skhu.mapper.ReplyMapper;
+import net.skhu.mapper.master.ReplyMasterMapper;
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
 
-	private final ReplyMapper replyMapper;
+	private final ReplyMasterMapper replyMapper;
 
-	public ReplyServiceImpl(ReplyMapper replyMapper) {
+	public ReplyServiceImpl(ReplyMasterMapper replyMapper) {
 		this.replyMapper = replyMapper;
 	}
 

@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import net.skhu.mapper.NoticeMapper;
+import net.skhu.mapper.master.NoticeMasterMapper;
 
 @SpringBootTest
 class NoticeControllerTest {
 
 	@Autowired
-	NoticeMapper noticeMapper;
+	NoticeMasterMapper noticeMapper;
 
 //	public NoticeControllerTest(NoticeMapper noticeMapper) {
 //		this.noticeMapper = noticeMapper;

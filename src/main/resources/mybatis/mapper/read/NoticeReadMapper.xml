@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.skhu.mapper.NoticeMapper">
+<mapper namespace="net.skhu.mapper.read.NoticeReadMapper">
 
 <select id = "findAll" parameterType = "net.skhu.dto.req.ReqCriteria" resultMap="NoticeList" useCache="true">
 	SELECT * 
@@ -37,32 +37,5 @@
 	   AND end_date <![CDATA[>=]]> date_format(sysdate(), '%Y%m%d') 
 	   AND seq = #{seq}
 </select>
-
-<insert id= "insertNotice" parameterType = "net.skhu.dto.res.ResNotice">
-	INSERT INTO notice (subject, contents, req_date, start_date, end_date, views, writer ) 
-	VALUES ( #{subject}, #{contents}, #{req_date}, #{start_date}, #{end_date}, 0, #{writer} )
-</insert>
-
-<update id="viewCnt" parameterType ="int">
-	UPDATE notice 
-	   SET views = views + 1 
-	 WHERE seq = #{seq}
-</update>
-
-<update id= "updateNotice" parameterType = "net.skhu.dto.res.ResNotice">
-	UPDATE notice
-	   SET subject = #{subject},
-	   		contents = #{contents},
-	   		start_date = #{start_date},
-	   		end_date = #{end_date},
-	   		writer = #{writer},
-	   		update_date = #{update_date}
-	 WHERE seq = #{seq}
-</update>
-
-<delete id= "deleteNotice">
-	DELETE FROM notice 
-	WHERE seq = #{seq} 
-</delete>
 
 </mapper>
