@@ -109,6 +109,28 @@
 	    	<artifactId>spring-boot-configuration-processor</artifactId>
 	    	<optional>true</optional>
 	    </dependency>
+	    <dependency>
+	    	<groupId>com.github.ulisesbocchio</groupId>
+	    	<artifactId>jasypt-spring-boot-starter</artifactId>
+	    	<version>3.0.4</version>
+	    </dependency>
+	    <!-- stmp 메일전송 관련 라이브러리 -->
+	    <dependency>
+	    	<groupId>javax.mail</groupId>
+	    	<artifactId>mail</artifactId>
+	    	<version>1.4.7</version>
+	    </dependency>
+	    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		</dependency>
+		<!-- 메일 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+	    
 	</dependencies>
 
 	<build>
