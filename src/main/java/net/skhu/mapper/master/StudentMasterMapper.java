@@ -9,4 +9,7 @@ public interface StudentMasterMapper {
 	// 회원가입
 	int insertStudent(ReqStudent reqStudent);
 
+
+	//회원탈퇴
+	int deleteStudent(String studentNo);
 }

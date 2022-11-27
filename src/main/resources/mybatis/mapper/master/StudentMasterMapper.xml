@@ -9,4 +9,9 @@
 	VALUES ( #{studentNo}, #{name}, #{departmentId}, #{phone}, #{sex}, #{email}, #{password} )
 </insert>
 
+<delete id= "deleteStudent" >
+	DELETE FROM student 
+	WHERE studentNo = #{studentNo}
+</delete>
+
 </mapper>

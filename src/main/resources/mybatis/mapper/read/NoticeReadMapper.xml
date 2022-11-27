@@ -4,7 +4,7 @@
 
 <mapper namespace="net.skhu.mapper.read.NoticeReadMapper">
 
-<select id = "findAll" parameterType = "net.skhu.dto.req.ReqCriteria" resultMap="NoticeList" useCache="true">
+<select id = "findAll" parameterType = "net.skhu.dto.req.ReqCriteria" resultMap="NoticeList" >
 	SELECT * 
 	  FROM notice 
 	 WHERE 1=1

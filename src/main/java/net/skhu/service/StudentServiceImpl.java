@@ -66,4 +66,9 @@ public class StudentServiceImpl implements StudentService{
 		return studentReadMapper.duplicateCheck(studentNo, phone, email);
 	}
 
+	@Override
+	public int deleteStudent(String studentNo) {
+		return studentMasterMapper.deleteStudent(studentNo);
+	}
+
 }

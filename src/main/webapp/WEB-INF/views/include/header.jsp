@@ -26,6 +26,7 @@
 	    <li class="nav-item">
 	    	<c:if test = "${not empty name}">
 	      		<a class="nav-link" href="/student/logout">Logout</a>
+	      		<a class="nav-link" href="/student/withdraw">회원탈퇴</a>
 	      	</c:if>
 	      	<c:if test = "${empty name }">
 	      		<a class="nav-link" href="/student/login">Login</a>

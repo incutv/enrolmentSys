@@ -13,6 +13,9 @@ public interface StudentService {
 	// 회원가입
 	int insertStudent(ReqStudent student);
 
+	// 회원탈퇴
+	int deleteStudent(String studentNo);
+
 	// 학과조회
 	List<ResDepartment> selectDepartment();
 
