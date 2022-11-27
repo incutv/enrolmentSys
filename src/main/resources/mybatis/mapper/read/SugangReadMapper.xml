@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.skhu.mapper.SugangMapper">
+<mapper namespace="net.skhu.mapper.read.SugangReadMapper">
 
 <select id= "sugangList" resultMap = "sugangView">
 	SELECT  l.id , l.title , p.name as professorName, l.room ,l.credit , p.id as professorId,
@@ -86,6 +86,14 @@
 	  FROM  sugang s join lecture l on s.lectureId = l.id 
 	 WHERE  s.year = ${year}
 	   AND s.semester = ${semester}
+	   AND s.lectureId = ${lectureId}
+</select>
+
+<select id= "countSugangInt" parameterType = "int" resultType = "int">
+	SELECT  count(*)
+	  FROM  sugang s join lecture l on s.lectureId = l.id 
+	 WHERE  s.year = ${year}
+	   AND s.semester = ${semester}
 	   AND l.id = ${lectureId}
 </select>
 
@@ -105,17 +113,6 @@
 	   AND s.semester =${semester}
 	   AND s.lectureId = ${lectureId}
 </select>
-
-<insert id= "insertSugang" parameterType = "net.skhu.dto.res.ResSugang">
-	INSERT INTO sugang ( lectureId, studentId, year, semester, credit, cancel)
-	VALUES ( ${lectureId}, ${studentId}, ${year}, ${semester}, ${credit}, ${cancel})
-</insert>
-
-<insert id= "deleteSugang" parameterType = "int">
-	DELETE FROM sugang
-	WHERE studentId = ${studentId}
-	  AND lectureId = ${lectureId}
-</insert>
 
 </mapper>
 

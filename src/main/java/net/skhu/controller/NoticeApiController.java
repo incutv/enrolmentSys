@@ -49,7 +49,7 @@ public class NoticeApiController {
 	@ApiOperation(value="리스트", notes="공지사항 리스트출력")
 	@GetMapping("")
 	@ResponseBody
-	public ResponseEntity<Response> list(HttpServletRequest request, ReqCriteria cri) {
+	public ResponseEntity<Response<Object>> list(HttpServletRequest request, ReqCriteria cri) {
 		//List<Map<String, String>> notices = noticeService.findAll(cri);
 		List<ResNotice> notices = noticeService.findAll(cri);
 		//String url = request.getContextPath();
@@ -81,7 +81,7 @@ public class NoticeApiController {
 
 	@ApiOperation(value="공지사항 클릭", notes="공지사항 클릭한 게시물 검색")
 	@GetMapping("/{seq}")
-	public ResponseEntity<Response> edit(HttpServletRequest request, @PathVariable int seq) {
+	public ResponseEntity<Response<Object>> edit(HttpServletRequest request, @PathVariable int seq) {
 		ResNotice notice = noticeService.findOne(seq);
 
 		StringBuffer url = request.getRequestURL();
@@ -96,7 +96,7 @@ public class NoticeApiController {
 
 	@ApiOperation(value="댓글", notes="게시물에 대한 댓글")
 	@GetMapping("/reply/{seq}")
-	public ResponseEntity<Response> replyList(HttpServletRequest request, @PathVariable int seq, ReqCriteria cri) {
+	public ResponseEntity<Response<Object>> replyList(HttpServletRequest request, @PathVariable int seq, ReqCriteria cri) {
 		List<ResReply> reply = replyService.selectReply(seq, cri.getAmount(), cri.getPageNum());
 
 		StringBuffer url = request.getRequestURL();

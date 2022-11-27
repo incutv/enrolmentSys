@@ -19,7 +19,10 @@ public enum Message {
 	SUGANG_FULL("S3", "수강할 과목의 정원이 가득 찼습니다."),
 	SUGANG_CREDIT_FULL("S4", "한학기당 최대학점을 넘어서 신청할 수 없습니다."),
 	SUGANG_DUPLICATE("S5", "이미 신청된 과목입니다."),
-	STUDENT_DUPLICATE("L1", "이미 등록된 학생입니다.");
+	STUDENT_DUPLICATE("L1", "이미 등록된 학생입니다."),
+	STUDENT_SIGN_SUJECT("SS1", "가입을 환영합니다."),
+	STUDENT_SIGN_CONTENT("SS2", "회원가입을 환영합니다."),
+	STUDENT_WITHRAW("SS3","탈퇴 되었습니다.");
 
 	private String code;
 	private String message;

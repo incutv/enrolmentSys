@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.skhu.mapper.master.StudentMasterMapper">
+
+<insert id= "insertStudent" parameterType = "net.skhu.dto.req.ReqStudent">
+	INSERT INTO student (studentNo, name, departmentId, phone, sex, email, password) 
+	VALUES ( #{studentNo}, #{name}, #{departmentId}, #{phone}, #{sex}, #{email}, #{password} )
+</insert>
+
+<delete id= "deleteStudent" >
+	DELETE FROM student 
+	WHERE studentNo = #{studentNo}
+</delete>
+
+</mapper>

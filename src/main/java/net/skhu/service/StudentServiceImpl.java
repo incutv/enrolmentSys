@@ -10,22 +10,25 @@ import net.skhu.dto.Message;
 import net.skhu.dto.req.ReqStudent;
 import net.skhu.dto.res.ResDepartment;
 import net.skhu.dto.res.ResStudent;
-import net.skhu.mapper.StudentMapper;
+import net.skhu.mapper.master.StudentMasterMapper;
+import net.skhu.mapper.read.StudentReadMapper;
 
 @Service
 public class StudentServiceImpl implements StudentService{
 
-	private StudentMapper studentMapper;
+	private StudentMasterMapper studentMasterMapper;
+	private StudentReadMapper studentReadMapper;
 	private PasswordEncoder passwordEncoder;
 
-	public StudentServiceImpl(StudentMapper studentMapper, PasswordEncoder passwordEncoder) {
-		this.studentMapper = studentMapper;
+	public StudentServiceImpl(StudentMasterMapper studentMasterMapper, StudentReadMapper studentReadMapper, PasswordEncoder passwordEncoder) {
+		this.studentMasterMapper = studentMasterMapper;
+		this.studentReadMapper = studentReadMapper;
 		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
 	public ResStudent loginStudent(ReqStudent reqStudent) {
-		ResStudent student = studentMapper.findByStudentNo(reqStudent.getStudentNo());
+		ResStudent student = studentReadMapper.findByStudentNo(reqStudent.getStudentNo());
 
 		if(student == null) {
 			throw new RuntimeException(Message.NOT_FOUND_STUDENTNO.getMessage());
@@ -50,17 +53,22 @@ public class StudentServiceImpl implements StudentService{
 			throw new NullPointerException(Message.STUDENT_DUPLICATE.getMessage());
 		}
 
-		return studentMapper.insertStudent(student);
+		return studentMasterMapper.insertStudent(student);
 	}
 
 	@Override
 	public List<ResDepartment> selectDepartment() {
-		return studentMapper.selectDepartment();
+		return studentReadMapper.selectDepartment();
 	}
 
 	@Override
 	public int duplicateCheck(String studentNo, String phone, String email) {
-		return studentMapper.duplicateCheck(studentNo, phone, email);
+		return studentReadMapper.duplicateCheck(studentNo, phone, email);
+	}
+
+	@Override
+	public int deleteStudent(String studentNo) {
+		return studentMasterMapper.deleteStudent(studentNo);
 	}
 
 }

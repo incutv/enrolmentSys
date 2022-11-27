@@ -1,4 +1,4 @@
-package net.skhu.mapper;
+package net.skhu.mapper.read;
 
 import java.util.List;
 
@@ -9,15 +9,12 @@ import net.skhu.dto.res.ResDepartment;
 import net.skhu.dto.res.ResStudent;
 
 @Mapper
-public interface StudentMapper {
+public interface StudentReadMapper {
 	// 로그인
 	ResStudent loginStudent(ReqStudent student);
 
 	// 아이디확인
 	ResStudent findByStudentNo(String studentNo);
-
-	// 회원가입
-	int insertStudent(ReqStudent reqStudent);
 
 	// 학과조회
 	List<ResDepartment> selectDepartment();

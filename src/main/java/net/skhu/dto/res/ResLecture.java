@@ -16,6 +16,8 @@ public class ResLecture {
 	private int semester;
 	private String seatCnt;
 	private String name;
+	private int entry;
+	private int nowEntry;
 
 	private ResProfessor professor;
 }

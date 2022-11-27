@@ -28,7 +28,7 @@ public class StudentApiController {
 
 	//회원가입
 	@PostMapping("/signup")
-	public ResponseEntity<Response> signup(HttpServletRequest request, @RequestBody ReqStudent reqStudent){
+	public ResponseEntity<Response<Object>> signup(HttpServletRequest request, @RequestBody ReqStudent reqStudent){
 		reqStudent.setPassword(passwordEncoder.encode(reqStudent.getPassword()));
 
 		studentService.insertStudent(reqStudent);
@@ -43,7 +43,7 @@ public class StudentApiController {
 
 	//로그인
 	@PostMapping("/login")
-	public ResponseEntity<Response> login(HttpServletRequest request, @RequestBody ReqStudent reqStudent){
+	public ResponseEntity<Response<Object>> login(HttpServletRequest request, @RequestBody ReqStudent reqStudent){
 
 		ResStudent loginStudent = studentService.loginStudent(reqStudent);
 

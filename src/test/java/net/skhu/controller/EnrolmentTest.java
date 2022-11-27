@@ -1,45 +1,54 @@
 package net.skhu.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import net.skhu.mapper.master.SugangMasterMapper;
+import net.skhu.service.SugangService;
+
+@SpringBootTest
 public class EnrolmentTest {
 
-//	public void testEnrolment() throws InterruptedException {
-//		int numberOfThreads = 100;
-//		ExecutorService service = Executors.newFixedThreadPool(10);
-//		CountDownLatch latch = new CountDownLatch(numberOfThreads);
+	@Autowired
+	SugangService sugangService;
+
+	@Autowired
+	SugangMasterMapper sugangMapper;
+
+	@Test
+	public void testEnrolment() throws InterruptedException {
+		int numberOfThreads = 100;
+		ExecutorService service = Executors.newFixedThreadPool(10);
+		CountDownLatch latch = new CountDownLatch(numberOfThreads);
+
+		for(int i =0; i < numberOfThreads; i++) {
+
+			service.execute(() -> {
+//				ReqSugang sugang = ReqSugang.builder()
+//						.lectureId(1)
+//						.studentId(1)
+//						.year(2022)
+//						.semester(2)
+//						.build();
 //
-//		ReqSugang sugang = new ReqSugang();
-//
-//		for(int i =0; i < numberOfThreads; i++) {
-//
-//			service.execute(() -> {
-//
-//				sugang.setLectureId(1);
-//				sugang.setStudentId(1);
-//				sugang.setYear(2022);
-//				sugang.setSemester(2);
-//				sugang.setCredit(3);
-//				insertSugang(sugang);
-//
-//			});
-//		}
-//
-//		latch.await();
-//		assertEquals(SugangMapper.countSugang(1), 100);
-//	}
-//
-//
-//	public synchronized int insertSugang(ReqSugang sugang) {
-//		if ( countSugang(sugang.getLectureId()).equals("OK")) {
-//			return SugangMapper.insertSugang(sugang);
-//		}
-//		else {
-//			throw new NullPointerException(Message.SUGANG_FULL.getMessage());
-//		}
-//	}
-//
-//	public String countSugang(int lectureId) {
-//		return SugangMapper.countSugang(lectureId);
-//	}
+//				sugangService.insertSugang(sugang);
+				latch.countDown();
+
+			});
+		}
+
+		latch.await();
+		assertEquals(32, sugangMapper.countSugangInt(2022, 2, 1));
+	}
+
+
 
 
 }

@@ -36,6 +36,16 @@ function checkValue() {
 		return false;
 	}
 	
+	if(!document.signup.email.value ){
+		alert("email을 입력하세요.");
+		return false;
+	}
+	
+	if(!document.signup.phone.value ){
+		alert("핸드폰번호를 입력하세요.");
+		return false;
+	}
+	
 }
 </script>
 </head>
